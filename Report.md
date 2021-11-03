@@ -19,6 +19,8 @@ Our main communication method will be through Discord.
 
 ## 2. _due 11/3_ Brief project description (what algorithms will you be comparing and on what architectures)
 
+[Source](https://www.tutorialspoint.com/parallel_algorithm/parallel_algorithm_sorting.htm)
+
 1. Odd-Even Transposition Sort (MPI + CUDA)
 
     ```text
