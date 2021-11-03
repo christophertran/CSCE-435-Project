@@ -1,5 +1,7 @@
 # ParallelComputing CSCE 435 Group project
 
+[TAMU GitHub Repo](https://github.tamu.edu/rohitbarichello/csce435project)
+
 ## 1. _due 10/27_ Group members
 
 1. Rohit Barichello
