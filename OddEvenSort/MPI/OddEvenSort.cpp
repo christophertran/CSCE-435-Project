@@ -28,11 +28,7 @@
  * @param data_size 
  * @return int 
  */
-int fill_array_from_binary_file(int **data,
-                                char *binary_file,
-                                long rank,
-                                int count_processes,
-                                unsigned long &data_size) {
+int fill_array_from_binary_file(int **data, char *binary_file, long rank, int count_processes, unsigned long &data_size) {
     std::ifstream bin_file(binary_file, std::ios::in | std::ios::binary);
     bin_file.seekg(0, std::ios::end);
 

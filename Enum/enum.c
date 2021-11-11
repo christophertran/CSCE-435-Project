@@ -8,10 +8,16 @@
  ***********************************************************************
  */
 
-#include <mpi.h>
 #include <math.h>
+#include <mpi.h>
 
 #include "stdio.h"
+
+// these are tests
+// #include <algorithm>
+#include <cstring>
+#include <fstream>
+#include <iostream>
 
 #define REG_EMPTY (-1)
 #define REG_TAG_X 256
@@ -20,12 +26,25 @@
 #define REG_TAG_C 259
 #define REG_TAG_ZC 260
 
+int fill_array_from_binary_file(int **data, char *binary_file, long rank, int count_processes, unsigned long &data_size) {
+    std::ifstream bin_file(binary_file, std::ios::in | std::ios::binary);
+    bin_file.seekg(0, std::ios::end);
+
+    const long int count_all_bytes = bin_file.tellg();
+    data_size = (count_all_bytes / sizeof(int) / count_processes);
+
+    *data = new int[data_size];
+
+    bin_file.seekg(rank * sizeof(int) * data_size, std::ios::beg);
+    bin_file.read(reinterpret_cast<char *>(*data), sizeof(int) * data_size);
+
+    return EXIT_SUCCESS;
+}
+
 int main(int argc, char *argv[]) {
     int numprocs;     // number of procecs
     int myid;         // current proc RANK
     MPI_Status stat;  // routine status
-
-    int array[5] = {4,6,3,8,1};
 
     int reg_x;    // register X
     int reg_y;    // register Y
@@ -37,6 +56,11 @@ int main(int argc, char *argv[]) {
     MPI_Init(&argc, &(argv));
     MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
     MPI_Comm_rank(MPI_COMM_WORLD, &myid);
+
+    int *data;
+    unsigned long data_size;
+    fill_array_from_binary_file(&data, argv[1], myid, numprocs, data_size);
+
     compare = 0;
     z_count = 0;
     reg_x = REG_EMPTY;
@@ -46,16 +70,15 @@ int main(int argc, char *argv[]) {
     if (myid == 0) {  // main proc
         int number;
 
-        for (int i = 0; i < 5; ++i) {
-            number = array[i];
+        for (int i = 0; i < data_size; ++i) {
+            number = data[i];
 
             printf(" %d", number);
 
             // send value to corresponding proc's reg X
             if (i != 0) {
                 MPI_Send(&number, 1, MPI_INT, i, REG_TAG_X, MPI_COMM_WORLD);
-            }
-            else {
+            } else {
                 reg_x = number;
             }
 
@@ -66,8 +89,7 @@ int main(int argc, char *argv[]) {
             MPI_Send(&reg_y, 1, MPI_INT, myid + 1, REG_TAG_Y, MPI_COMM_WORLD);
         }
         printf("\n");
-    } 
-    else {  // sub procs
+    } else {  // sub procs
         MPI_Recv(&reg_x, 1, MPI_INT, 0, REG_TAG_X, MPI_COMM_WORLD, &stat);
 
         // do comparsion
