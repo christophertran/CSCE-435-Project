@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     int myid;         // current proc RANK
     MPI_Status stat;  // routine status
 
-    int array[5] = [4,6,3,8,1];
+    int array[5] = {4,6,3,8,1};
 
     int reg_x;    // register X
     int reg_y;    // register Y
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
         int number;
 
         for (int i = 0; i < 5; ++i) {
-            number = array[i]
+            number = array[i];
 
             printf(" %d", number);
 
