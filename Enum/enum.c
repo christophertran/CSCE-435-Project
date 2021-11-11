@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     if (myid == 0) {  // main proc
         int number;
 
-        for (int i = 0; fin.good() && i < {{{LENGTH OF THE ARRAY}}}; ++i) {
+        for (int i = 0; i < 5; ++i) {
             number = array[i]
 
             printf(" %d", number);
