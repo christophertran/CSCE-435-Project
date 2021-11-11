@@ -15,4 +15,4 @@
 #
 module load intel/2020b       # load Intel software stack 
 #
-mpirun -np 4 ./Enum
+mpirun -np 4 ./Enum 100numbers.bin

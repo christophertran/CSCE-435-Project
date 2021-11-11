@@ -15,7 +15,7 @@
 
 // these are tests
 // #include <algorithm>
-#include <cstring>
+#include <string.h>
 #include <fstream>
 #include <iostream>
 
