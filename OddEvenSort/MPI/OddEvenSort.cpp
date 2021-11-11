@@ -11,10 +11,11 @@
  */
 
 #include <mpi.h>
-#include <iostream>
+
 #include <algorithm>
-#include <fstream>
 #include <cstring>
+#include <fstream>
+#include <iostream>
 
 /**
  * @brief Utility function that reads numbers from generated binary file and stores
@@ -31,21 +32,17 @@ int fill_array_from_binary_file(int **data,
                                 char *binary_file,
                                 long rank,
                                 int count_processes,
-                                unsigned long &data_size)
-{
+                                unsigned long &data_size) {
     std::ifstream bin_file(binary_file, std::ios::in | std::ios::binary);
     bin_file.seekg(0, std::ios::end);
 
     const long int count_all_bytes = bin_file.tellg();
     data_size = (count_all_bytes / sizeof(int) / count_processes);
 
-    if (data_size < 1)
-    {
+    if (data_size < 1) {
         std::cout << "The amount of processes is higher than the amount of values. In this case not every process will become values." << std::endl;
         return EXIT_FAILURE;
-    }
-    else if ((count_all_bytes / sizeof(int)) % count_processes != 0)
-    {
+    } else if ((count_all_bytes / sizeof(int)) % count_processes != 0) {
         std::cout << "The amount of values have to be even on every process. Otherwise the sorting would be incorrect." << std::endl;
         return EXIT_FAILURE;
     }
@@ -65,32 +62,22 @@ int fill_array_from_binary_file(int **data,
  * @param rank 
  * @return int 
  */
-int findPartner(int phase, int rank)
-{
+int findPartner(int phase, int rank) {
     int partner;
 
     /* if it's an even phase */
-    if (phase % 2 == 0)
-    {
+    if (phase % 2 == 0) {
         /* if we are an even process */
-        if (rank % 2 == 0)
-        {
+        if (rank % 2 == 0) {
             partner = rank + 1;
-        }
-        else
-        {
+        } else {
             partner = rank - 1;
         }
-    }
-    else
-    {
+    } else {
         /* it's an odd phase - do the opposite */
-        if (rank % 2 == 0)
-        {
+        if (rank % 2 == 0) {
             partner = rank - 1;
-        }
-        else
-        {
+        } else {
             partner = rank + 1;
         }
     }
@@ -104,8 +91,7 @@ int findPartner(int phase, int rank)
  * @param b 
  * @return int 
  */
-int compare(const void *a, const void *b)
-{
+int compare(const void *a, const void *b) {
     return (*(int *)a - *(int *)b);
 }
 
@@ -117,26 +103,21 @@ int compare(const void *a, const void *b)
  * @param count_processes 
  * @param data_size 
  */
-void parallel_sort(int *data, int rank, int count_processes, unsigned long data_size)
-{
+void parallel_sort(int *data, int rank, int count_processes, unsigned long data_size) {
     const unsigned long concat_data_size = data_size * 2;
 
     auto *other = new int[data_size];
     auto *concatData = new int[concat_data_size];
 
-    for (int i = 0; i < count_processes; i++)
-    {
+    for (int i = 0; i < count_processes; i++) {
         int partner = findPartner(i, rank);
         if (partner < 0 || partner >= count_processes)
             continue;
 
-        if (rank % 2 == 0)
-        {
+        if (rank % 2 == 0) {
             MPI_Send(data, (int)data_size, MPI_INT, partner, 0, MPI_COMM_WORLD);
             MPI_Recv(other, (int)data_size, MPI_INT, partner, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        }
-        else
-        {
+        } else {
             MPI_Recv(other, (int)data_size, MPI_INT, partner, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             MPI_Send(data, (int)data_size, MPI_INT, partner, 0, MPI_COMM_WORLD);
         }
@@ -158,8 +139,7 @@ void parallel_sort(int *data, int rank, int count_processes, unsigned long data_
  * Compile:      mpic++ OddEvenSort.cpp -o OddEvenSort
  * Example-Call: mpirun -np 4 ./OddEvenSort "<numbers_file.bin>"
  * */
-int main(int argCount, char **argValues)
-{
+int main(int argCount, char **argValues) {
     int rank, count_processes;
 
     MPI_Init(&argCount, &argValues);
@@ -170,12 +150,11 @@ int main(int argCount, char **argValues)
     unsigned long data_size;
     int status = fill_array_from_binary_file(&data, argValues[1], rank, count_processes, data_size);
 
-    if (status == EXIT_FAILURE)
-    {
+    if (status == EXIT_FAILURE) {
         MPI_Finalize();
         return EXIT_FAILURE;
     }
-    
+
     parallel_sort(data, rank, count_processes, data_size);
 
     MPI_Finalize();
