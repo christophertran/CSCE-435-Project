@@ -67,6 +67,9 @@ int main(int argc, char *argv[]) {
     reg_y = REG_EMPTY;
     reg_z = REG_EMPTY;
 
+
+    printf("PRE SORT\n");
+
     if (myid == 0) {  // main proc
         int number;
 
