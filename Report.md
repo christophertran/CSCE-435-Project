@@ -23,7 +23,7 @@ Our main communication method will be through Discord.
 
 [Source](https://www.tutorialspoint.com/parallel_algorithm/parallel_algorithm_sorting.htm)
 
-1. Odd-Even Transposition Sort (MPI + CUDA)
+1. Odd-Even Transposition Sort (MPI)
 
     ```text
     procedure ODD-EVEN_PAR (n) 
@@ -49,10 +49,10 @@ Our main communication method will be through Discord.
     end ODD-EVEN_PAR
     ```
 
-2. Parallel Merge Sort (MPI + CUDA)
+2. Parallel Merge Sort (MPI)
 
     ```text
-    procedureparallelmergesort(id, n, data, newdata)
+    procedure PARALLEL_MERGE_SORT(id, n, data, newdata)
 
     begin
     data = sequentialmergesort(data)
@@ -62,10 +62,10 @@ Our main communication method will be through Discord.
         endfor
             
     newdata = data
-    end
+    end PARALLEL_MERGE_SORT
     ```
 
-3. Enumeration Sort (MPI + CUDA)
+3. Enumeration Sort (MPI)
 
     ```text
     procedure ENUM_SORTING (n)
@@ -87,9 +87,62 @@ Our main communication method will be through Discord.
     end ENUM_SORTING
     ```
 
+4. Hyper Quick Sort (MPI)
+
+    ```text
+    procedure HYPER_QUICKSORT (B, n)
+
+    begin
+
+    id := process’s label;
+        
+    for i := 1 to d do
+        begin
+        x := pivot;
+        partition B into B1 and B2 such that B1 ≤ x < B2;
+        if ith bit is 0 then
+            
+        begin
+            send B2 to the process along the ith communication link;
+            C := subsequence received along the ith communication link;
+            B := B1 U C;
+        endif
+        
+        else
+            send B1 to the process along the ith communication link;
+            C := subsequence received along the ith communication link;
+            B := B2 U C;
+            end else
+        end for
+            
+    sort B using sequential quicksort;
+        
+    end HYPER_QUICKSORT
+    ```
+
 ---
 
 ## 3. _due 11/12_ Pseudocode for each algorithm and implementation
+
+1. Odd-Even Transposition Sort (MPI)
+
+    ```cpp
+    ```
+
+2. Parallel Merge Sort (MPI)
+
+    ```cpp
+    ```
+
+3. Enumeration Sort (MPI)
+
+    ```cpp
+    ```
+
+4. Hyper Quick Sort (MPI)
+
+    ```cpp
+    ```
 
 ## 3. _due 11/12_ Evaluation plan - what and how will you measure and compare
 
