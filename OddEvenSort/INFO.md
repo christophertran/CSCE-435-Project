@@ -4,13 +4,19 @@
 
 ### Step 1: Compile and generate random numbers
 
-#### Step 1a: Compile RandomNumberGenerator.cpp
+#### Step 1a: Load intel module
 
 ```txt
-g++ RandomNumberGenerator.cpp -o RandomNumberGenerator
+module load intel/2020b
 ```
 
-#### Step 1b: Generate binary file with random numbers
+#### Step 1b: Compile RandomNumberGenerator.cpp
+
+```txt
+g++ RandomNumberGenerator.cpp -o RandomNumberGenerator.exe
+```
+
+#### Step 1c: Generate binary file with random numbers
 
 ```txt
 ./RandomNumberGenerator 100
@@ -27,7 +33,7 @@ module load intel/2020b
 #### Step 2b: Compile OddEvenSort.cpp
 
 ```txt
-mpiicc OddEvenSort.cpp -o OddEvenSort
+mpiicc OddEvenSort.cpp -o OddEvenSort.exe
 ```
 
 #### Step 2c: Modify number of processes and random numbers binary in *mpi.grace_job* file
