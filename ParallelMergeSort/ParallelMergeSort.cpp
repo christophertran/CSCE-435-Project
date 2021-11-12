@@ -3,7 +3,7 @@
 #include <time.h>
 #include <fstream>
 #include <iostream>
-#include <mpi.h>
+#include "mpi.h"
 
 using namespace std;
 
