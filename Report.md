@@ -146,11 +146,15 @@ Our main communication method will be through Discord.
 
 ## 3. _due 11/12_ Evaluation plan - what and how will you measure and compare
 
-For example:
+Group project idea you are welcome to use: Choose 3 parallel sorting algorithms, implement in MPI and CUDA.  Examine and compare performance in detail (computation time, communication time, how much data is sent) on a variety of inputs: sorted, random, reverse, sorted with 1% perturbed, etc.  Strong scaling, weak scaling, GPU performance.
 
-- Effective use of a GPU (play with problem size and number of threads)
-- Strong scaling to more nodes (same problem size, increase number of processors)
-- Weak scaling (increase problem size, increase number of processors)
+We will compare the performance of 4 MPI sorting algorithms. We will be measuring not only the total computation/sorting time, but we will also consider things like the communication time, and how much data is sent between nodes/processes. 
+
+In addition to measuring these items with various size and random inputs, we will also be measuring with various sizes of sorted and reversed inputs.
+
+Another source of variation that we will be testing is varying the number of nodes/processes to look for either strong or weak scaling.
+
+Overall we will be looking for trends in the sorting algorithms with various inputs and input sizes as well as with various numbers of nodes/processes.
 
 ## 4. _due 11/19_ Performance evaluation
 
