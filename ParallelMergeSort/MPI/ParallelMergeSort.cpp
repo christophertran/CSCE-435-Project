@@ -33,6 +33,15 @@ int fill_array_from_binary_file(int **data, char *binary_file, long rank, int co
     return EXIT_SUCCESS;
 }
 
+void printList(int id, char arrayName[], int array[], int arraySize) {
+    printf("Process %d, %s: ", id, arrayName);
+    for (int i = 0; i < arraySize; i++) {
+        printf(" %d", array[i]);
+    }
+    printf("\n");
+    printf("\n");
+}
+
 void merge(int *a, int *b, int l, int m, int r) {
 	int h, i, j, k;
 	h = l;
@@ -93,53 +102,40 @@ int main(int argc, char** argv) {
     //Read data from binary file and store the values
     int *data;
     unsigned long data_size;
-    fill_array_from_binary_file(&data, argv[1], myid, numprocs, data_size);
+    int status = fill_array_from_binary_file(&data, argv[1], myid, numprocs, data_size);
     
-    if (myid == 0) {
-        cout << "Number of ranks: " << numprocs << endl;
-        cout << "Data size: " << data_size << endl;
-        cout << "Unsorted data array: " << endl;
-        for (int a = 0; a < data_size; a++) {
-            cout << data[a] << " ";
-        }
-        cout << endl;
+    if (status == EXIT_FAILURE) {
+        MPI_Finalize();
+        return EXIT_FAILURE;
     }
     
-    //Divide the array into equal-sized chunks
-    int divided_size = (int) data_size / numprocs;
-
-    //Create a sub-array and send them to each process
-    int *sub_array = (int*)malloc(divided_size * sizeof(int));
-    MPI_Scatter(data, divided_size, MPI_INT, sub_array, divided_size, MPI_INT, 0, MPI_COMM_WORLD);
 
     //Create a temporary array and perform the merge sort on each process
-    int *tmp_array = (int*)malloc(divided_size*sizeof(int));
-    mergeSort(sub_array, tmp_array, 0, (divided_size - 1));
+    int *tmp_array = (int*)malloc(data_size*sizeof(int));
+    mergeSort(data, tmp_array, 0, (data_size - 1));
 
     //Gather sorted sub-arrays into one
     int *sorted = NULL;
     if(myid == 0) {
-        sorted = (int*)malloc(data_size*sizeof(int));
+        sorted = (int*)malloc(data_size*sizeof(int)*numprocs);
     }
-    MPI_Gather(sub_array, divided_size, MPI_INT, sorted, divided_size, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Gather(data, data_size, MPI_INT, sorted, data_size, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Barrier(MPI_COMM_WORLD);
 
     //Make the final merge
     if (myid == 0 ){
-        int *other_array = (int*)malloc(data_size*sizeof(int));
-        mergeSort(sorted, other_array, 0, ( (int) data_size - 1));
+        int *other_array = (int*)malloc(data_size*sizeof(int)*numprocs);
+        mergeSort(sorted, other_array, 0, ( ((int) data_size)*numprocs - 1));
 
         //Display the sorted array
-        cout << "Final Array using MPI Parallelism: ";
-        for(int i = 0; i < (int) data_size; i++) {
-            cout << sorted[i] << " ";
-        }
-        cout << "\n" << endl;
+        cout << "Final Array using MPI Parallelism: " << endl;
+        printList(myid, "Sorted Array", sorted, (int)data_size*numprocs);
+        
 
         free(sorted);
         free(other_array);
     }
 
-    free(sub_array);
     free(tmp_array);
     delete(data);
     MPI_Barrier(MPI_COMM_WORLD);
