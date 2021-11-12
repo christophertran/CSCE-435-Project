@@ -21,7 +21,7 @@ Our main communication method will be through Discord.
 
 ## 2. _due 11/3_ Brief project description (what algorithms will you be comparing and on what architectures)
 
-[Source](https://www.tutorialspoint.com/parallel_algorithm/parallel_algorithm_sorting.htm)
+[Source - Tutorials Point](https://www.tutorialspoint.com/parallel_algorithm/parallel_algorithm_sorting.htm)
 
 1. Odd-Even Transposition Sort (MPI)
 
@@ -124,24 +124,31 @@ Our main communication method will be through Discord.
 
 ## 3. _due 11/12_ Pseudocode for each algorithm and implementation
 
+[Source - Tutorials Point](https://www.tutorialspoint.com/parallel_algorithm/parallel_algorithm_sorting.htm)
+
 1. Odd-Even Transposition Sort (MPI)
 
-    ```cpp
-    ```
+    [Source - selkie-macalester.org](http://selkie-macalester.org/csinparallel/modules/MPIProgramming/build/html/oddEvenSort/oddEven.html)
+
+    "Odd-Even Transposition Sort is based on the Bubble Sort technique. It compares two adjacent numbers and switches them, if the first number is greater than the second number to get an ascending order list. Odd-Even transposition sort operates in two phases − odd phase and even phase. In both the phases, processes exchange numbers with their adjacent number in the right."
+
+    The Odd-Even Transposition Sort was implemented using MPI. The data being sorted is read from a binary file that contains *x* random numbers. The way this algorithm is written, on startup, each process is assigned a rank and based on this rank and the total number of processes, the processes each will read a chunk of the numbers from the binary file. The size of the chunk and the chunk each process reads is determined by their rank and the total number of processes.
+
+    Now the actual Odd-Even portion of the sort occurs. Each process will sort locally its chunk of values using quick sort. Then based on whether it is the Odd phase or the Even phase, each process will pair up with a partner process to swap data is necessary. The swapping continues as many times as there are processes. This is to ensure that we swap all local process data if necessary and we end up with the final data as being sorted.
 
 2. Parallel Merge Sort (MPI)
 
-    ```cpp
+    ```txt
     ```
 
 3. Enumeration Sort (MPI)
 
-    ```cpp
+    ```txt
     ```
 
 4. Hyper Quick Sort (MPI)
 
-    ```cpp
+    ```txt
     ```
 
 ## 3. _due 11/12_ Evaluation plan - what and how will you measure and compare
