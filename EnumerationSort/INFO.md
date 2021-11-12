@@ -1,4 +1,4 @@
-# Odd-Even Transposition Sort
+# Enumeration Sort
 
 ## MPI Implementation
 
@@ -37,13 +37,13 @@ module load intel/2020b
 #### Step 2b: Compile OddEvenSort.cpp
 
 ```txt
-mpiicc OddEvenSort.cpp -o OddEvenSort.exe
+mpiicc EnumerationSort.c -o EnumerationSort.exe
 ```
 
 #### Step 2c: Modify number of processes and random numbers binary in *mpi.grace_job* file
 
 ```txt
-mpirun -np 4 ./OddEvenSort 100numbers.bin
+mpirun -np 4 ./EnumerationSort.exe 100numbers.bin
 ```
 
 #### Step 2d: Submit batch job to grace cluster

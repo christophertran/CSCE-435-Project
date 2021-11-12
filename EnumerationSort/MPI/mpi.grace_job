@@ -15,4 +15,4 @@
 #
 module load intel/2020b       # load Intel software stack 
 #
-mpirun -np 4 ./enum 100numbers.bin
+mpirun -np 4 ./EnumerationSort.exe 100numbers.bin
