@@ -4,6 +4,8 @@
  *        @version  1.0
  *        @date     03/07/2014 11:52:40 AM
  *        @author   Fridolin Pokorny <fridex.devel@gmail.com>
+ * 
+ *      Adapted by Rohit Barichello for use in CSCE 435 at Texas A&M University
  *
  ***********************************************************************
  */

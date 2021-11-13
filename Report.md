@@ -143,11 +143,15 @@ Our main communication method will be through Discord.
     In the MPI implementation, each process first reads from a binary file containing a predetermined amount of random numbers. Each process takes a specific chunk from the amount of random numbers assigned by rank, with the size of the chunk being determined by the rank and the total number of processes. Once this occurs, the merge begins. Each process performs a mergesort on their specific sections of the original data set, which is then combined back into a larger array on the primary process that is merged again. Then the sorted array is output to the console.
 
  
-
 3. Enumeration Sort (MPI)
 
-    ```txt
-    ```
+    The enumeration sort is a parallel sorting algorithm that comparesevery element of an array to every other element in the array. Each element is assigned a count. An element's count is incremented by one when compared to an element with a smaller value. At the end of the comparisons, each element is placed in an array at the index of its count. This algorithm indexes elements based on how many elements they're greater than. 
+
+    This would usually be a naive approach to sorting. However, because we're leveraging multiple processes, the task is really only slightly less efficient than an O(n) algorithm.
+
+    The MPI implementation starts by having the main process send each element in the array to all other processes. Each subprocess then takes the value it recieves from the main process and compares it to the entire array using a for-loop. Each process has its count variable which is incremented as the comparison takes place.
+
+    An MPI Barrier is used to stall all processes until all comparison is done. Then, each process broadcasts it's count variable and element value. These pairs of data are compiled into a sorted list by the main process and printed.
 
 4. Hyper Quick Sort (MPI)
 
