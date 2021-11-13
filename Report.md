@@ -151,8 +151,10 @@ Our main communication method will be through Discord.
 
 4. Hyper Quick Sort (MPI)
 
-    ```txt
-    ```
+    Hyper Quick Sort is an implementation of the quick sort algorithm using parallelism. The fundamental of quicksort is choosing a value and partitioning the input data set to two subsets. One subset contains input data smaller in size than the chosen value and the other contains input data greater than the chosen value. This chosen value is called the pivot value. And in each step, these divided data sets are sub-divided choosing pivots from each set. Quicksort stop conditions are met when no sub division is possible.
+    
+    The Hyper Quick Sort algorithm was implemented using MPI. Initially, the data is read in from a binary file with a predetermined amount of random numbers. Once the data is stored within an array the head process will start quicksort with each process waiting to receive a subarray. Once the process receives a subarray it divides the array into smaller parts and distributes it to available processes. If there aren't any other available, then it sorts it sequentially. It then sends back the subarray.
+
 
 ## 3. _due 11/12_ Evaluation plan - what and how will you measure and compare
 
