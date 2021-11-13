@@ -141,13 +141,18 @@ Our main communication method will be through Discord.
     Parallel Merge Sort is a parallel version of the well-known mergesort algorithm. This algorithm assumes that the sequence to be sorted is distributed and so generates a distributed sorted sequence. To simplify things, we distribute the data evenly among the processors, and make sure that the processors are an integer power of two. 
 
     In the MPI implementation, each process first reads from a binary file containing a predetermined amount of random numbers. Each process takes a specific chunk from the amount of random numbers assigned by rank, with the size of the chunk being determined by the rank and the total number of processes. Once this occurs, the merge begins. Each process performs a mergesort on their specific sections of the original data set, which is then combined back into a larger array on the primary process that is merged again. Then the sorted array is output to the console.
-
  
-
 3. Enumeration Sort (MPI)
 
-    ```txt
-    ```
+    "Enumeration sort is a method of arranging all the elements in a list by finding the final position of each element in a sorted list. It is done by comparing each element with all other elements and finding the number of elements having smaller value.
+
+    Therefore, for any two elements, ai and aj any one of the following cases must be true −
+
+    ai < aj
+    ai > aj
+    ai = aj"
+
+    The Enumeration Sort was implemented using MPI. The data is initially read from a binary file of random integer values. The data is read per process dependent on rank. Each process is given a chunk of numbers it is responsible for and it is responsible for finding the number of elements that have a value less than it. Thus it is able to determine the positions in the final list of the values it is responsible for.
 
 4. Hyper Quick Sort (MPI)
 
