@@ -148,8 +148,8 @@ Our main communication method will be through Discord.
 
     Therefore, for any two elements, ai and aj any one of the following cases must be true −
 
-    ai < aj
-    ai > aj
+    ai < aj\
+    ai > aj\
     ai = aj"
 
     The Enumeration Sort was implemented using MPI. The data is initially read from a binary file of random integer values. The data is read per process dependent on rank. Each process is given a chunk of numbers it is responsible for and it is responsible for finding the number of elements that have a value less than it. Thus it is able to determine the positions in the final list of the values it is responsible for.
