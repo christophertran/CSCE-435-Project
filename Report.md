@@ -141,7 +141,6 @@ Our main communication method will be through Discord.
     Parallel Merge Sort is a parallel version of the well-known mergesort algorithm. This algorithm assumes that the sequence to be sorted is distributed and so generates a distributed sorted sequence. To simplify things, we distribute the data evenly among the processors, and make sure that the processors are an integer power of two. 
 
     In the MPI implementation, each process first reads from a binary file containing a predetermined amount of random numbers. Each process takes a specific chunk from the amount of random numbers assigned by rank, with the size of the chunk being determined by the rank and the total number of processes. Once this occurs, the merge begins. Each process performs a mergesort on their specific sections of the original data set, which is then combined back into a larger array on the primary process that is merged again. Then the sorted array is output to the console.
-
  
 3. Enumeration Sort (MPI)
 
@@ -155,12 +154,12 @@ Our main communication method will be through Discord.
 
 4. Hyper Quick Sort (MPI)
 
-    ```txt
-    ```
+    Hyper Quick Sort is an implementation of the quick sort algorithm using parallelism. The fundamental of quicksort is choosing a value and partitioning the input data set to two subsets. One subset contains input data smaller in size than the chosen value and the other contains input data greater than the chosen value. This chosen value is called the pivot value. And in each step, these divided data sets are sub-divided choosing pivots from each set. Quicksort stop conditions are met when no sub division is possible.
+    
+    The Hyper Quick Sort algorithm was implemented using MPI. Initially, the data is read in from a binary file with a predetermined amount of random numbers. Once the data is stored within an array the head process will start quicksort with each process waiting to receive a subarray. Once the process receives a subarray it divides the array into smaller parts and distributes it to available processes. If there aren't any other available, then it sorts it sequentially. It then sends back the subarray.
+
 
 ## 3. _due 11/12_ Evaluation plan - what and how will you measure and compare
-
-Group project idea you are welcome to use: Choose 3 parallel sorting algorithms, implement in MPI and CUDA.  Examine and compare performance in detail (computation time, communication time, how much data is sent) on a variety of inputs: sorted, random, reverse, sorted with 1% perturbed, etc.  Strong scaling, weak scaling, GPU performance.
 
 We will compare the performance of 4 MPI sorting algorithms. We will be measuring not only the total computation/sorting time, but we will also consider things like the communication time, and how much data is sent between nodes/processes. 
 
