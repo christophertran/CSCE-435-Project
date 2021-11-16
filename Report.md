@@ -169,6 +169,33 @@ Another source of variation that we will be testing is varying the number of nod
 
 Overall we will be looking for trends in the sorting algorithms with various inputs and input sizes as well as with various numbers of nodes/processes.
 
+- Input sizes: 1,000; 10,000; 100,000; 1,000,000;
+- Process sizes: 8; 16; 32; 64; 128; 256;
+- Input types: 
+    - Random
+    - Sorted
+    - Reversed (Sorted)
+- Measurement points: 
+    - Total computation time
+        - Measure the total time it takes to ingest, sort, and gather sorted data.
+    - Total data gathering time
+        - Measure the total time it takes to gather sorted data.
+    - Individual computation time (min, max, avg)
+        - Measure the indvidual computation time of each process.
+    - Individual data ingestion time (min, max, avg)
+        - Measure the individual data ingestion time of each process.
+
+Graphs that we should include for each algorithm...
+- For each input size (4) and for each input type (3) we should include a graph with each measurement point (4) for each number of processes (6).
+- This means, overall, for each input size, we should have 3 graphs. This is a total of 12 graphs per sorting algorithm and 48 graphs for the project.
+    - Random 1,000
+    - Random 10,000
+    - ...
+    - Sorted 1,000
+    - Sorted 10,000
+    - ...
+    - Reversed (Sorted) 1,000,000
+
 ## 4. _due 11/19_ Performance evaluation
 
 Include detailed analysis of computation performance, communication performance.
