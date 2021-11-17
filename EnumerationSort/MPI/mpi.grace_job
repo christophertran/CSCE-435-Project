@@ -17,6 +17,8 @@ sbatch <<EOT
 #
 module load intel/2020b       # load Intel software stack 
 #
+rm output.*
+mpiicc EnumerationSort.cpp -o EnumerationSort.exe
 mpirun -np $1 ./EnumerationSort.exe $2
 
 EOT
