@@ -4,7 +4,7 @@
  * @brief Initial source code taken from the github repository below.
  *        https://github.com/erenalbayrak/Odd-Even-Sort-mit-MPI
  *
- *        The code has been modified and updated for CSCE-435 by Christopher Tran
+ *        The code has been modified and updated for CSCE-435 by Rohit Barichello
  *        Modifications include adding timing and evaluation metrics for determining 
  *        the sorting algorithm's performance. Additionally, comments were added for
  *        clarification, learning, and understanding purposes.
@@ -14,12 +14,6 @@
 #include <string>
 #include <cstring>
 
-/**
- * @brief Create a file name object
- * 
- * @param strCountNumbersToGenerate 
- * @return std::string 
- */
 std::string create_file_name(char *strCountNumbersToGenerate)
 {
     std::string file_name = strCountNumbersToGenerate;
