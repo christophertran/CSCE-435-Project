@@ -11,9 +11,9 @@
 #SBATCH --mem=8G                 #Request 8GB per node 
 #SBATCH --output=output."$1_$2"  #Send stdout/err to "output.[jobID]" 
 #
-rm output.*
-mpiicc EnumerationSort.cpp -o EnumerationSort.exe
 module load intel/2020b       # load Intel software stack
+mpiicc EnumerationSort.cpp -o EnumerationSort.exe
+rm output.*
 sbatch <<EOT
 #!/bin/bash
 ##ENVIRONMENT SETTINGS; CHANGE WITH CAUTION
