@@ -30,6 +30,7 @@ sbatch <<EOT
 #
 ##First Executable Line
 # 
+module load intel/2020b       # load Intel software stack
 mpirun -np $1 ./EnumerationSort.exe $2
 
 EOT
