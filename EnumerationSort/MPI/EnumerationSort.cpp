@@ -70,10 +70,10 @@ int main(int argc, char *argv[]) {
     reg_z = REG_EMPTY;
 
 
-    printf("PRE SORT\n");
+    // printf("PRE SORT\n");
 
     if (myid == 0) {  // main proc
-        printf("MAIN PROCESS\n");
+        // printf("MAIN PROCESS\n");
         int number;
 
         for (int i = 0; i < data_size; ++i) {
@@ -96,7 +96,7 @@ int main(int argc, char *argv[]) {
         }
         printf("\n");
     } else {  // sub procs
-        printf("SUB PROCESS\n");
+        // printf("SUB PROCESS\n");
         MPI_Recv(&reg_x, 1, MPI_INT, 0, REG_TAG_X, MPI_COMM_WORLD, &stat);
 
         // do comparsion
@@ -115,10 +115,10 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    printf("Arrived at Barrier\n");
+    // printf("Arrived at Barrier\n");
     // wait for all processors to calculate the element ranks;
     MPI_Barrier(MPI_COMM_WORLD);
-    printf("Passed Barrier\n");
+    // printf("Passed Barrier\n");
 
     int value;  // value to send
 
