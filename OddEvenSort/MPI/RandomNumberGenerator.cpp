@@ -18,7 +18,7 @@
 // Define this if you want sorted numbers generated
 // #define SORTED
 // Define this if you want reversed sorted numbers generated
-// #define REVERSE
+// #define REVERSED
 
 #include <iostream>
 #include <string>
