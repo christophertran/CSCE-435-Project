@@ -138,13 +138,13 @@ Our main communication method will be through Discord.
 
 2. Parallel Merge Sort (MPI)
 
-    Parallel Merge Sort is a parallel version of the well-known mergesort algorithm. This algorithm assumes that the sequence to be sorted is distributed and so generates a distributed sorted sequence. To simplify things, we distribute the data evenly among the processors, and make sure that the processors are an integer power of two. 
+    Parallel Merge Sort is a parallel version of the well-known mergesort algorithm. This algorithm assumes that the sequence to be sorted is distributed and so generates a distributed sorted sequence. To simplify things, we distribute the data evenly among the processors, and make sure that the processors are an integer power of two.
 
     In the MPI implementation, each process first reads from a binary file containing a predetermined amount of random numbers. Each process takes a specific chunk from the amount of random numbers assigned by rank, with the size of the chunk being determined by the rank and the total number of processes. Once this occurs, the merge begins. Each process performs a mergesort on their specific sections of the original data set, which is then combined back into a larger array on the primary process that is merged again. Then the sorted array is output to the console.
- 
+
 3. Enumeration Sort (MPI)
 
-    The enumeration sort is a parallel sorting algorithm that comparesevery element of an array to every other element in the array. Each element is assigned a count. An element's count is incremented by one when compared to an element with a smaller value. At the end of the comparisons, each element is placed in an array at the index of its count. This algorithm indexes elements based on how many elements they're greater than. 
+    The enumeration sort is a parallel sorting algorithm that comparesevery element of an array to every other element in the array. Each element is assigned a count. An element's count is incremented by one when compared to an element with a smaller value. At the end of the comparisons, each element is placed in an array at the index of its count. This algorithm indexes elements based on how many elements they're greater than.
 
     This would usually be a naive approach to sorting. However, because we're leveraging multiple processes, the task is really only slightly less efficient than an O(n) algorithm.
 
@@ -155,13 +155,12 @@ Our main communication method will be through Discord.
 4. Hyper Quick Sort (MPI)
 
     Hyper Quick Sort is an implementation of the quick sort algorithm using parallelism. The fundamental of quicksort is choosing a value and partitioning the input data set to two subsets. One subset contains input data smaller in size than the chosen value and the other contains input data greater than the chosen value. This chosen value is called the pivot value. And in each step, these divided data sets are sub-divided choosing pivots from each set. Quicksort stop conditions are met when no sub division is possible.
-    
-    The Hyper Quick Sort algorithm was implemented using MPI. Initially, the data is read in from a binary file with a predetermined amount of random numbers. Once the data is stored within an array the head process will start quicksort with each process waiting to receive a subarray. Once the process receives a subarray it divides the array into smaller parts and distributes it to available processes. If there aren't any other available, then it sorts it sequentially. It then sends back the subarray.
 
+    The Hyper Quick Sort algorithm was implemented using MPI. Initially, the data is read in from a binary file with a predetermined amount of random numbers. Once the data is stored within an array the head process will start quicksort with each process waiting to receive a subarray. Once the process receives a subarray it divides the array into smaller parts and distributes it to available processes. If there aren't any other available, then it sorts it sequentially. It then sends back the subarray.
 
 ## 3. _due 11/12_ Evaluation plan - what and how will you measure and compare
 
-We will compare the performance of 4 MPI sorting algorithms. We will be measuring not only the total computation/sorting time, but we will also consider things like the communication time, and how much data is sent between nodes/processes. 
+We will compare the performance of 4 MPI sorting algorithms. We will be measuring not only the total computation/sorting time, but we will also consider things like the communication time, and how much data is sent between nodes/processes.
 
 In addition to measuring these items with various size and random inputs, we will also be measuring with various sizes of sorted and reversed inputs.
 
@@ -171,30 +170,31 @@ Overall we will be looking for trends in the sorting algorithms with various inp
 
 - Input sizes: 1,000; 10,000; 100,000; 1,000,000;
 - Process sizes: 8; 16; 32; 64; 128; 256;
-- Input types: 
-    - Random
-    - Sorted
-    - Reversed (Sorted)
-- Measurement points: 
-    - Total computation time
-        - Measure the total time it takes to ingest, sort, and gather sorted data.
-    - Total data gathering time
-        - Measure the total time it takes to gather sorted data.
-    - Individual computation time (min, max, avg)
-        - Measure the indvidual computation time of each process.
-    - Individual data ingestion time (min, max, avg)
-        - Measure the individual data ingestion time of each process.
+- Input types:
+  - Random
+  - Sorted
+  - Reversed (Sorted)
+- Measurement points:
+  - Total computation time
+    - Measure the total time it takes to ingest, sort, and gather sorted data.
+  - Total data gathering time
+    - Measure the total time it takes to gather sorted data.
+  - Individual computation time (min, max, avg)
+    - Measure the indvidual computation time of each process.
+  - Individual data ingestion time (min, max, avg)
+    - Measure the individual data ingestion time of each process.
 
 Graphs that we should include for each algorithm...
+
 - For each input size (4) and for each input type (3) we should include a graph with each measurement point (4) for each number of processes (6).
 - This means, overall, for each input size, we should have 3 graphs. This is a total of 12 graphs per sorting algorithm and 48 graphs for the project.
-    - Random 1,000
-    - Random 10,000
-    - ...
-    - Sorted 1,000
-    - Sorted 10,000
-    - ...
-    - Reversed (Sorted) 1,000,000
+  - Random 1,000
+  - Random 10,000
+  - ...
+  - Sorted 1,000
+  - Sorted 10,000
+  - ...
+  - Reversed (Sorted) 1,000,000
 
 ## 4. _due 11/19_ Performance evaluation
 
