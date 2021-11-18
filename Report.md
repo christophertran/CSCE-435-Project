@@ -168,7 +168,7 @@ Another source of variation that we will be testing is varying the number of nod
 
 Overall we will be looking for trends in the sorting algorithms with various inputs and input sizes as well as with various numbers of nodes/processes.
 
-- Input sizes: 1,000; 10,000; 100,000; 1,000,000;
+- Input sizes: 2,560; 25,600; 256,000; 2,560,000;
 - Process sizes: 8; 16; 32; 64; 128; 256;
 - Input types:
   - Random
@@ -188,13 +188,13 @@ Graphs that we should include for each algorithm...
 
 - For each input size (4) and for each input type (3) we should include a graph with each measurement point (4) for each number of processes (6).
 - This means, overall, for each input size, we should have 3 graphs. This is a total of 12 graphs per sorting algorithm and 48 graphs for the project.
-  - Random 1,000
-  - Random 10,000
+  - Random 2,560
+  - Random 25,600
   - ...
-  - Sorted 1,000
-  - Sorted 10,000
+  - Sorted 2,560
+  - Sorted 25,600
   - ...
-  - Reversed (Sorted) 1,000,000
+  - Reversed (Sorted) 2,560,000
 
 ## 4. _due 11/19_ Performance evaluation
 
