@@ -25,11 +25,11 @@ int fill_array_from_binary_file(int **data, char *binary_file, long rank, int co
 int main(int argc, char *argv[]) {
     // MPI initialization
     int numprocs;     // number of proccesses
-    // int myid;         // current proc RANK
-    // MPI_Status stat;  // routine status
-    // MPI_Init(&argc, &(argv));
-    // MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
-    // MPI_Comm_rank(MPI_COMM_WORLD, &myid);
+    int myid;         // current proc RANK
+    MPI_Status stat;  // routine status
+    MPI_Init(&argc, &(argv));
+    MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
+    MPI_Comm_rank(MPI_COMM_WORLD, &myid);
 
     // load random data
     int *data; // this is the data we're sorting
@@ -38,10 +38,8 @@ int main(int argc, char *argv[]) {
 
     int sorted[data_size]; // this is our sorted array
 
-
-    myid = 0;
     if(myid == 0) {
-        printf("Sorted Data: \n")
+        printf("Sorted Data: \n");
         for(int i = 0; i < data_size; i++) {
             printf("%d \n", data[i]);
         }
