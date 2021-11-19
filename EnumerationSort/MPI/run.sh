@@ -15,6 +15,7 @@ module load intel/2020b       # load Intel software stack
 mpiicc EnumerationSort.cpp -o EnumerationSort.exe #  
 rm output.*
 rm *.bin
+rm core.*
 
 # compile random number generator
 g++ RandomNumberGenerator.cpp -o RandomNumberGenerator
