@@ -37,6 +37,7 @@ int main(int argc, char *argv[]) {
     fill_array_from_binary_file(&data, argv[1], myid, numprocs, data_size);
 
     int sorted[data_size];  // this is our sorted array
+    int number;             // a temp variable for every element in the input array
     int element;            // this is the element assigned to this process
     int final_index = 0;    // this is the index of the element assigned to this process
                             // in the final sorted array
@@ -44,8 +45,6 @@ int main(int argc, char *argv[]) {
     // start sorting
     if (myid == 0) {  // main proc
         printf("MAIN PROCESS\n");
-        int number;
-
         for (int i = 0; i < data_size; ++i) {  // i represents id of process
             number = data[i];
 
