@@ -7,6 +7,8 @@
 
 #include "stdio.h"
 
+#define ELEMENT_TAG 500
+
 int fill_array_from_binary_file(int **data, char *binary_file, long rank, int count_processes, unsigned long &data_size) {
     std::ifstream bin_file(binary_file, std::ios::in | std::ios::binary);
     bin_file.seekg(0, std::ios::end);
@@ -50,7 +52,7 @@ int main(int argc, char *argv[]) {
 
             // send value to corresponding proc's reg X
             if (i != 0) {  //if not the main process, send the number to process i
-                MPI_Send(&number, 1, MPI_INT, i, 0, MPI_COMM_WORLD);
+                MPI_Send(&number, 1, MPI_INT, i, ELEMENT_TAG, MPI_COMM_WORLD);
             } else {
                 element = number;  // if process is main, element is first one in input array
             }
@@ -61,11 +63,11 @@ int main(int argc, char *argv[]) {
 
         MPI_Barrier(MPI_COMM_WORLD);
     } else {  // sub procs
-        printf("SUB PROCESS\n");
+        printf("SUB PROCESS: %d\n", myid);
         MPI_Barrier(MPI_COMM_WORLD);
         printf("SUB PROCESS POST BARRIER\n");
-        
-        MPI_Recv(&element, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &stat);
+
+        MPI_Recv(&element, 1, MPI_INT, 0, ELEMENT_TAG, MPI_COMM_WORLD, &stat);
         printf("Process %d Recieved Element: %d \n", myid, element);
 
         // do comparsion
