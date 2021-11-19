@@ -14,11 +14,10 @@
 module load intel/2020b       # load Intel software stack
 mpiicc EnumerationSort.cpp -o EnumerationSort.exe #  
 rm output.*
+rm *.bin
 
 # compile random number generator
 g++ RandomNumberGenerator.cpp -o RandomNumberGenerator
-
-cd ./random
 
 # generate binary files for random numbers
 for size in 2560 25600 256000 2560000
@@ -28,8 +27,6 @@ do
         ./RandomNumberGenerator $size $type
     done
 done
-
-cd ..
 
 ./run.grace_job  2560 "2560_random_numbers.bin"
 ./run.grace_job  2560 "2560_reversed_numbers.bin"
