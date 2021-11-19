@@ -39,10 +39,15 @@ int main(int argc, char *argv[]) {
     fill_array_from_binary_file(&data, argv[1], myid, numprocs, data_size);
 
     int sorted[numprocs];  // this is our sorted array
-    int number;             // a temp variable for every element in the input array
-    int element;            // this is the element assigned to this process
-    int final_index = 0;    // this is the index of the element assigned to this process
-                            // in the final sorted array
+    int number;            // a temp variable for every element in the input array
+    int element;           // this is the element assigned to this process
+    int final_index = 0;   // this is the index of the element assigned to this process
+                           // in the final sorted array
+
+    // print data
+    for (int i = 0; i < numprocs; i++) {
+        printf("%d: %d \n", i, data[i]);
+    }
 
     // start sorting
     if (myid == 0) {  // main proc
@@ -78,7 +83,6 @@ int main(int argc, char *argv[]) {
 
         MPI_Recv(&element, 1, MPI_INT, 0, ELEMENT_TAG, MPI_COMM_WORLD, &stat);
         MPI_Barrier(MPI_COMM_WORLD);
-        // printf("Passed Barrier 2\n");
 
         // printf("Process %d Recieved Element: %d \n", myid, element);
 
@@ -95,9 +99,8 @@ int main(int argc, char *argv[]) {
 
     // assign element to sorted array
     sorted[final_index] = element;
-    // printf("sorted[%d]: %d \n", final_index, sorted[final_index]);
+    printf("sorted[%d]: %d \n", final_index, sorted[final_index]);
 
-    // printf("Barrier 3: %d \n", myid);
     MPI_Barrier(MPI_COMM_WORLD);
     if (myid == 0) {
         printf("\nSorted Data: \n");
@@ -105,8 +108,7 @@ int main(int argc, char *argv[]) {
             printf("%d: %d \n", i, sorted[i]);
         }
     }
-    // printf("POST PRINT\n");
-
+    
     MPI_Finalize();
     return 0;
 }
