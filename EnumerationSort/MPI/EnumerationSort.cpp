@@ -60,10 +60,6 @@ int main(int argc, char *argv[]) {
     MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
     MPI_Comm_rank(MPI_COMM_WORLD, &myid);
 
-    int *data;
-    unsigned long data_size;
-    fill_array_from_binary_file(&data, argv[1], myid, numprocs, data_size);
-
     compare = 0;
     z_count = 0;
     reg_x = REG_EMPTY;
@@ -77,6 +73,11 @@ int main(int argc, char *argv[]) {
     // c is count register
     if (myid == 0) {  // main proc
         printf("MAIN PROCESS\n");
+
+        int *data;
+        unsigned long data_size;
+        fill_array_from_binary_file(&data, argv[1], myid, numprocs, data_size);
+
         int number;
 
         for (int i = 0; i < numprocs; ++i) {  // i represents id of process
@@ -142,9 +143,9 @@ int main(int argc, char *argv[]) {
         }
 
         // broadcast index of proc to wait for a msg
-        MPI_Bcast(&value, 1, MPI_INT, i, MPI_COMM_WORLD); // we send or receive all values to all processes.
+        MPI_Bcast(&value, 1, MPI_INT, i, MPI_COMM_WORLD);  // we send or receive all values to all processes.
 
-        // send x value to reg z 
+        // send x value to reg z
         if (myid == i && compare != myid) {
             MPI_Send(&reg_x, 1, MPI_INT, compare, REG_TAG_Z, MPI_COMM_WORLD);
         }
