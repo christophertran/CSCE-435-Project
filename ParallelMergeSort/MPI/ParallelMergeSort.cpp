@@ -6,7 +6,7 @@
 #include "mpi.h"
 
 //Uncomment below to see final sorted array
-//#define COUT
+#define COUT
 
 
 using namespace std;
@@ -35,34 +35,6 @@ int fill_array_from_binary_file(int **data, char *binary_file, long rank, int co
     bin_file.seekg(rank * sizeof(int) * data_size, ios::beg);
     bin_file.read(reinterpret_cast<char *>(*data), sizeof(int) * data_size);
     return EXIT_SUCCESS;
-}
-
-void printList(int array[], int array_size, int myid, int numprocs, int *global_array) {
-    if (myid == 0) {
-        int n = array_size * numprocs;
-        global_array = new int[n];
-
-        MPI_Gather(array, array_size, MPI_INT, global_array, array_size, MPI_INT, 0, MPI_COMM_WORLD);
-
-        //Make the final merge
-        int *other_array = new int[n];
-        mergeSort(sorted, other_array, 0, ( ((int) data_size)*numprocs - 1));
-
-        #ifdef COUT
-            cout << "Sorted list:"
-            for (int i = 0; i < n; i++)
-            {
-                cout << global_array[i] << " "
-            }
-            cout << endl;
-        #endif
-
-        delete global_array, other_array;
-    }
-    else {
-        MPI_Gather(array, array_size, MPI_INT, global_array, array_size, MPI_INT, 0, MPI_COMM_WORLD);
-    }
-
 }
 
 void merge(int *a, int *b, int l, int m, int r) {
@@ -111,6 +83,35 @@ void mergeSort(int *a, int *b, int l, int r) {
 		
 	}		
 }
+
+void printList(int array[], int array_size, int myid, int numprocs, int *global_array) {
+    if (myid == 0) {
+        int n = array_size * numprocs;
+        global_array = new int[n];
+
+        MPI_Gather(array, array_size, MPI_INT, global_array, array_size, MPI_INT, 0, MPI_COMM_WORLD);
+
+        //Make the final merge
+        int *other_array = new int[n];
+        mergeSort(global_array, other_array, 0, ( (array_size)*numprocs - 1));
+
+        #ifdef COUT
+            cout << "Sorted list: " << endl;
+            for (int i = 0; i < n; i++)
+            {
+                cout << global_array[i] << " ";
+            }
+            cout << endl;
+        #endif
+
+        delete global_array, other_array;
+    }
+    else {
+        MPI_Gather(array, array_size, MPI_INT, global_array, array_size, MPI_INT, 0, MPI_COMM_WORLD);
+    }
+
+}
+
 
 int main(int argc, char** argv) {
     int numprocs;

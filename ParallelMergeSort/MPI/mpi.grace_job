@@ -15,4 +15,4 @@
 #
 module load intel/2020b       # load Intel software stack 
 #
-mpirun -np 4 ./ParallelMergeSort.exe 100numbers.bin
+mpirun -np 256 ./ParallelMergeSort.exe ./input/2560000_random_numbers.bin
