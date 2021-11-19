@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
     }
 
     // wait for all processses to calculate their element's final index
-    printf("Barrier 2\n");
+    printf("Barrier 2: %d \n", myid);
     MPI_Barrier(MPI_COMM_WORLD);
 
     // assign element to sorted array
