@@ -62,12 +62,16 @@ int main(int argc, char *argv[]) {
         }
 
         MPI_Barrier(MPI_COMM_WORLD);
+        MPI_Barrier(MPI_COMM_WORLD);
     } else {  // sub procs
         printf("SUB PROCESS: %d\n", myid);
         MPI_Barrier(MPI_COMM_WORLD);
         printf("SUB PROCESS POST BARRIER\n");
 
         MPI_Recv(&element, 1, MPI_INT, 0, ELEMENT_TAG, MPI_COMM_WORLD, &stat);
+        MPI_Barrier(MPI_COMM_WORLD);
+        printf("Passed Barrier 2\n");
+
         printf("Process %d Recieved Element: %d \n", myid, element);
 
         // do comparsion
