@@ -66,14 +66,10 @@ int main(int argc, char *argv[]) {
     reg_y = REG_EMPTY;
     reg_z = REG_EMPTY;
 
-    // printf("PRE SORT\n");
-
     // x reg is for a processes current value and y is comparison register
     // z is final array register
     // c is count register
     if (myid == 0) {  // main proc
-        printf("MAIN PROCESS\n");
-
         int *data;
         unsigned long data_size;
         fill_array_from_binary_file(&data, argv[1], myid, numprocs, data_size);
@@ -82,8 +78,6 @@ int main(int argc, char *argv[]) {
 
         for (int i = 0; i < numprocs; ++i) {  // i represents id of process
             number = data[i];
-
-            printf(" %d \n", number);
 
             // send value to corresponding proc's reg X
             if (i != 0) {  //if not the main process, send the number to process i
@@ -99,9 +93,7 @@ int main(int argc, char *argv[]) {
             // send it to my neighbour's Y reg
             MPI_Send(&reg_y, 1, MPI_INT, myid + 1, REG_TAG_Y, MPI_COMM_WORLD);
         }
-        printf("\n");
     } else {  // sub procs
-        // printf("SUB PROCESS\n");
         MPI_Recv(&reg_x, 1, MPI_INT, 0, REG_TAG_X, MPI_COMM_WORLD, &stat);
 
         // do comparsion
@@ -120,10 +112,8 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // printf("Arrived at Barrier\n");
     // wait for all processors to calculate the element ranks;
     MPI_Barrier(MPI_COMM_WORLD);
-    // printf("Passed Barrier\n");
 
     int value;  // value to send
 
