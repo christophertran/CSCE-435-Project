@@ -15,4 +15,4 @@
 #
 module load intel/2020b       # load Intel software stack 
 #
-mpirun -np 4 ./OddEvenSort.exe 100numbers.bin
+mpirun -np 256 ./OddEvenSort.exe ./input/2560000_reversed_numbers.bin

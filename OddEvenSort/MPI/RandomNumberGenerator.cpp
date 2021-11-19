@@ -18,7 +18,7 @@
 // Define this if you want sorted numbers generated
 // #define SORTED
 // Define this if you want reversed sorted numbers generated
-// #define REVERSE
+// #define REVERSED
 
 #include <iostream>
 #include <string>
@@ -81,13 +81,13 @@ int main(int argCount, char *argValues[])
         int number;
 
 #ifdef RANDOM
-        int number = rand();
+        number = rand();
 #endif
 #ifdef SORTED
-        int number = i;
+        number = i;
 #endif
 #ifdef REVERSED
-        int number = numbers_to_generate - i;
+        number = numbers_to_generate - i;
 #endif
 
         fwrite(&number, sizeof(number), 1, resultFile);

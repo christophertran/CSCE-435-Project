@@ -10,8 +10,11 @@
  *        clarification, learning, and understanding purposes.
  */
 
+// #define COUT
+
 #include <mpi.h>
 #include <iostream>
+#include <iomanip>
 #include <algorithm>
 #include <fstream>
 #include <cstring>
@@ -181,12 +184,14 @@ void printGlobalList(int local_A[], int local_n, int my_rank, int p, MPI_Comm co
 
         MPI_Gather(local_A, local_n, MPI_INT, global_A, local_n, MPI_INT, 0, comm);
 
+#ifdef COUT
         std::cout << ("Global list:\n");
         for (unsigned int i = 0; i < n; i++)
         {
             std::cout << global_A[i] << " ";
         }
         std::cout << std::endl;
+#endif
 
         delete global_A;
     }
@@ -210,6 +215,21 @@ int main(int argCount, char **argValues)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &count_processes);
 
+    // [0]; Measure the total time it takes to ingest, sort, and gather sorted data.
+    // [1]; Measure the total time it takes to gather sorted data.
+    // [2]; Measure the individual data ingestion time of each process. (min, max, avg)
+    // [3]; Measure the indvidual computation time of each process. (min, max, avg)
+    double local_runtime[4];
+
+    // TOTAL COMPUTATION STARTS HERE (Timing only matters for Rank 0 process)
+    if (rank == 0)
+    {
+        local_runtime[0] = MPI_Wtime();
+    }
+
+    // INDIVIDUAL DATA INGESTION TIME STARTS HERE
+    local_runtime[2] = MPI_Wtime();
+
     int *data;
     unsigned long data_size;
     int status = fill_array_from_binary_file(&data, argValues[1], rank, count_processes, data_size);
@@ -220,14 +240,69 @@ int main(int argCount, char **argValues)
         return EXIT_FAILURE;
     }
 
+    local_runtime[2] = MPI_Wtime() - local_runtime[2];
+    // INDIVIDUAL DATA INGESTION TIME ENDS HERE
+
+    // INDIVIDUAL COMPUTATION TIME STARTS HERE
+    local_runtime[3] = MPI_Wtime();
+
     oddEvenSort(data, rank, count_processes, data_size);
 
-    if (argCount > 2 && strcmp(argValues[2], "y") == 0)
+    local_runtime[3] = MPI_Wtime() - local_runtime[3];
+    // INDIVIDUAL COMPUTATION TIME ENDS HERE
+
+    // TOTAL GATHERING TIME STARTS HERE (Timing only matters for Rank 0 process)
+    if (rank == 0)
     {
-        printGlobalList(data, data_size, rank, count_processes, MPI_COMM_WORLD);
+        local_runtime[1] = MPI_Wtime();
     }
 
+    printGlobalList(data, data_size, rank, count_processes, MPI_COMM_WORLD);
+
+    if (rank == 0)
+    {
+        local_runtime[1] = MPI_Wtime() - local_runtime[1];
+    }
+    // TOTAL GATHERING TIME ENDS HERE (Timing only matters for Rank 0 process)
+
     delete data;
+
+    if (rank == 0)
+    {
+        local_runtime[0] = MPI_Wtime() - local_runtime[0];
+    }
+    // TOTAL COMPUTATION ENDS HERE (Timing only matters for Rank 0 process)
+
+    // [0]; Measure the total time it takes to ingest, sort, and gather sorted data.
+    // [1]; Measure the total time it takes to gather sorted data.
+    // [2]; Measure the individual data ingestion time of each process. (min, max, avg)
+    // [3]; Measure the indvidual computation time of each process. (min, max, avg)
+    double global_min[4]; // Only need [2], [3]
+    double global_max[4]; // Only need [2], [3]
+    double global_avg[4]; // Only need [2], [3]
+
+    MPI_Reduce(&local_runtime, &global_min, 4, MPI_DOUBLE, MPI_MIN, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&local_runtime, &global_max, 4, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&local_runtime, &global_avg, 4, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+
+    if (rank == 0)
+    {
+        std::cout << std::fixed;
+        std::cout << "==========\n";
+        std::cout << "Processes: " << count_processes << "\n";
+        std::cout << "Input Size: " << data_size * count_processes << "\n";
+        std::cout << "==========\n";
+        std::cout << "Total Computation: " << local_runtime[0] << "\n";
+        std::cout << "Total Gathering: " << local_runtime[1] << "\n";
+        std::cout << "==========\n";
+        std::cout << "Individual Data Ingestion Min: " << global_min[2] << "\n";
+        std::cout << "Individual Data Ingestion Max: " << global_max[2] << "\n";
+        std::cout << "Individual Data Ingestion Avg: " << global_avg[2] / count_processes << "\n";
+        std::cout << "==========\n";
+        std::cout << "Individual Computation Min: " << global_min[3] << "\n";
+        std::cout << "Individual Computation Max: " << global_max[3] << "\n";
+        std::cout << "Individual Computation Avg: " << global_avg[3] / count_processes << std::endl;
+    }
 
     MPI_Finalize();
 
