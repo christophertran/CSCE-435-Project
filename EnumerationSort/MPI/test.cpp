@@ -47,8 +47,14 @@ int main(int argc, char *argv[]) {
     // start sorting
     if (myid == 0) {  // main proc
         printf("MAIN PROCESS\n");
+
+        printf("data_size: %d \n", data_size);
+
         for (int i = 0; i < data_size; ++i) {  // i represents id of process
             number = data[i];
+
+            printf("i: %d\n", i);
+            printf("i != 0: %d\n", i != 0);
 
             // send value to corresponding proc's reg X
             if (i != 0) {  //if not the main process, send the number to process i
