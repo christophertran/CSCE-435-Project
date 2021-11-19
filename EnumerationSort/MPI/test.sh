@@ -9,7 +9,7 @@
 #SBATCH --nodes=16               #Request 16 node
 #SBATCH --ntasks-per-node=4      #Request 4 tasks/cores per node
 #SBATCH --mem=8G                 #Request 8GB per node 
-#SBATCH --output=output."$1_$2"  #Send stdout/err to "output.[jobID]" 
+#SBATCH --output=output.test  #Send stdout/err to "output.[jobID]" 
 #
 ##First Executable Line
 # 
