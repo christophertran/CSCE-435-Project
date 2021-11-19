@@ -14,4 +14,4 @@
 ##First Executable Line
 # 
 module load intel/2020b       # load Intel software stack
-sbatch mpirun -np 1 ./test ./100numbers.bin
+mpirun -np 1 ./test ./100numbers.bin
