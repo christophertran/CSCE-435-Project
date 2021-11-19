@@ -6,7 +6,7 @@
 #include "mpi.h"
 
 //Uncomment below to see final sorted array
-#define COUT
+//#define COUT
 
 
 using namespace std;
@@ -207,19 +207,19 @@ int main(int argc, char** argv) {
     {
         std::cout << std::fixed;
         std::cout << "==========\n";
-        std::cout << "Processes: " << count_processes << "\n";
-        std::cout << "Input Size: " << data_size * count_processes << "\n";
+        std::cout << "Processes: " << numprocs << "\n";
+        std::cout << "Input Size: " << data_size * numprocs << "\n";
         std::cout << "==========\n";
         std::cout << "Total Computation: " << local_runtime[0] << "\n";
         std::cout << "Total Gathering: " << local_runtime[1] << "\n";
         std::cout << "==========\n";
         std::cout << "Individual Data Ingestion Min: " << global_min[2] << "\n";
         std::cout << "Individual Data Ingestion Max: " << global_max[2] << "\n";
-        std::cout << "Individual Data Ingestion Avg: " << global_avg[2] / count_processes << "\n";
+        std::cout << "Individual Data Ingestion Avg: " << global_avg[2] / numprocs << "\n";
         std::cout << "==========\n";
         std::cout << "Individual Computation Min: " << global_min[3] << "\n";
         std::cout << "Individual Computation Max: " << global_max[3] << "\n";
-        std::cout << "Individual Computation Avg: " << global_avg[3] / count_processes << std::endl;
+        std::cout << "Individual Computation Avg: " << global_avg[3] / numprocs << std::endl;
     }
 
 

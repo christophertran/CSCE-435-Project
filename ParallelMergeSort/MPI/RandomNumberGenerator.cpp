@@ -14,11 +14,11 @@
 // Be sure to only have ONE defined at a time!!
 
 // Define this if you want random numbers generated
-#define RANDOM
+//#define RANDOM
 // Define this if you want sorted numbers generated
-// #define SORTED
+//#define SORTED
 // Define this if you want reversed sorted numbers generated
-// #define REVERSED
+ #define REVERSED
 
 #include <iostream>
 #include <string>
