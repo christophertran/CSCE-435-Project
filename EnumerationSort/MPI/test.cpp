@@ -45,10 +45,9 @@ int main(int argc, char *argv[]) {
     // start sorting
     if (myid == 0) {  // main proc
         printf("MAIN PROCESS\n");
+        printf("Num Process: %d \n", numprocs);
         for (int i = 0; i < data_size; ++i) {  // i represents id of process
             number = data[i];
-
-            // printf(" %d \n", number);
 
             // send value to corresponding proc's reg X
             if (i != 0) {  //if not the main process, send the number to process i
@@ -62,7 +61,7 @@ int main(int argc, char *argv[]) {
         }
         printf("\n");
     } else {  // sub procs
-        // printf("SUB PROCESS\n");
+        printf("SUB PROCESS\n");
         MPI_Recv(&element, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &stat);
 
         // do comparsion

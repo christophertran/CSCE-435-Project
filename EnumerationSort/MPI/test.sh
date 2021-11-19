@@ -32,6 +32,6 @@ sbatch <<EOT
 ##First Executable Line
 # 
 module load intel/2020b       # load Intel software stack
-mpirun -np 1 ./test ./100numbers.bin
+mpirun -np 100 ./test ./100numbers.bin
 
 EOT
