@@ -10,6 +10,16 @@
  *        clarification, learning, and understanding purposes.
  */
 
+// By default we will generate random numbers...
+// Be sure to only have ONE defined at a time!!
+
+// Define this if you want random numbers generated
+#define RANDOM
+// Define this if you want sorted numbers generated
+// #define SORTED
+// Define this if you want reversed sorted numbers generated
+// #define REVERSED
+
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -23,6 +33,17 @@
 std::string create_file_name(char *strCountNumbersToGenerate)
 {
     std::string file_name = strCountNumbersToGenerate;
+
+#ifdef RANDOM
+    file_name += "_random_";
+#endif
+#ifdef SORTED
+    file_name += "_sorted_";
+#endif
+#ifdef REVERSED
+    file_name += "_reversed_";
+#endif
+
     file_name += "numbers";
     file_name += ".bin";
 
@@ -57,13 +78,24 @@ int main(int argCount, char *argValues[])
     unsigned int numbers_to_generate = atoi(argValues[1]);
     for (unsigned i = 0; i < numbers_to_generate; i++)
     {
-        int randNumber = rand();
-        fwrite(&randNumber, sizeof(randNumber), 1, resultFile);
+        int number;
+
+#ifdef RANDOM
+        number = rand();
+#endif
+#ifdef SORTED
+        number = i;
+#endif
+#ifdef REVERSED
+        number = numbers_to_generate - i;
+#endif
+
+        fwrite(&number, sizeof(number), 1, resultFile);
 
         // Output to console as necessary
         if (argCount > 2 && strcmp(argValues[2], "y") == 0)
         {
-            std::cout << randNumber << " ";
+            std::cout << number << " ";
         }
     }
 
