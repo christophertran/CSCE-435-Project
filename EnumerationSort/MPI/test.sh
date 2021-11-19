@@ -11,7 +11,6 @@
 #SBATCH --mem=8G                 #Request 8GB per node 
 #SBATCH --output=output."$1_$2"  #Send stdout/err to "output.[jobID]" 
 #
-git stash
 git pull
 module load intel/2020b       # load Intel software stack
 mpiicc test.cpp -o test
