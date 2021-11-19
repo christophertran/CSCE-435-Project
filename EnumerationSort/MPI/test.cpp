@@ -44,16 +44,16 @@ int main(int argc, char *argv[]) {
     int final_index = 0;   // this is the index of the element assigned to this process
                            // in the final sorted array
 
-    // print data
-    for (int i = 0; i < numprocs; i++) {
-        printf("%d: %d \n", i, data[i]);
-    }
-
     // start sorting
     if (myid == 0) {  // main proc
         printf("MAIN PROCESS\n");
 
         printf("numprocs: %d \n", numprocs);
+
+        // print data
+        for (int i = 0; i < numprocs; i++) {
+            printf("%d: %d \n", i, data[i]);
+        }
 
         for (int i = 0; i < numprocs; ++i) {  // i represents id of process
             number = data[i];
@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
             printf("%d: %d \n", i, sorted[i]);
         }
     }
-    
+
     MPI_Finalize();
     return 0;
 }
