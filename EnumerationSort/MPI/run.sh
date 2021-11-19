@@ -22,7 +22,7 @@ g++ RandomNumberGenerator.cpp -o RandomNumberGenerator
 # generate binary files for random numbers
 for size in 2560 25600 256000 2560000
 do
-    for type in 1 2 3
+    for type in 0 1 2
     do
         ./RandomNumberGenerator $size $type
     done
