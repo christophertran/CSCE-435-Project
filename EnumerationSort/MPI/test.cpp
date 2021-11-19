@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     if(myid == 0) {
         printf("Sorted Data: \n");
         for(int i = 0; i < data_size; i++) {
-            printf("%d \n", data[i]);
+            printf("%d: %d \n", i, data[i]);
         }
     }
 
