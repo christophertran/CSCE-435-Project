@@ -58,9 +58,13 @@ int main(int argc, char *argv[]) {
             // decide if incrementing this processes/elements final index in the sorted array
             final_index += (element > number);
         }
-        printf("\n");
+
+        MPI_Barrier(MPI_COMM_WORLD);
     } else {  // sub procs
         printf("SUB PROCESS\n");
+        MPI_Barrier(MPI_COMM_WORLD);
+        printf("SUB PROCESS POST BARRIER\n");
+        
         MPI_Recv(&element, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &stat);
         printf("Process %d Recieved Element: %d \n", myid, element);
 
