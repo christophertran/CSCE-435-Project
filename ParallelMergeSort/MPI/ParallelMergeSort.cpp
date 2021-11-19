@@ -123,6 +123,21 @@ int main(int argc, char** argv) {
     MPI_Comm_rank(MPI_COMM_WORLD, &myid);
     MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
 
+    // [0]; Measure the total time it takes to ingest, sort, and gather sorted data.
+    // [1]; Measure the total time it takes to gather sorted data.
+    // [2]; Measure the individual data ingestion time of each process. (min, max, avg)
+    // [3]; Measure the indvidual computation time of each process. (min, max, avg)
+    double local_runtime[4];
+
+    // TOTAL COMPUTATION STARTS HERE (Timing only matters for Rank 0 process)
+    if (myid == 0)
+    {
+        local_runtime[0] = MPI_Wtime();
+    }
+
+    // INDIVIDUAL DATA INGESTION TIME STARTS HERE
+    local_runtime[2] = MPI_Wtime();
+
     //Read data from binary file and store the values
     int *data;
     unsigned long data_size;
@@ -133,20 +148,84 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
     
+    local_runtime[2] = MPI_Wtime() - local_runtime[2];
+    // INDIVIDUAL DATA INGESTION TIME ENDS HERE
+
+
+
+    // INDIVIDUAL COMPUTATION TIME STARTS HERE
+    local_runtime[3] = MPI_Wtime();
 
     //Create a temporary array and perform the merge sort on each process
-    int *tmp_array = (int*)malloc(data_size*sizeof(int));
+    int *tmp_array = new int[data_size];
     mergeSort(data, tmp_array, 0, (data_size - 1));
 
     int *sorted = NULL;
+
+    local_runtime[3] = MPI_Wtime() - local_runtime[3];
+    // INDIVIDUAL COMPUTATION TIME ENDS HERE
     
+
+
+
+    // TOTAL GATHERING TIME STARTS HERE (Timing only matters for Rank 0 process)
+    if (myid == 0)
+    {
+        local_runtime[1] = MPI_Wtime();
+    }
+
     //Gather data and perform final merge, and print if requested
     printList(data, data_size, myid, numprocs, sorted);
-    MPI_Barrier(MPI_COMM_WORLD);
+
+    if (myid == 0)
+    {
+        local_runtime[1] = MPI_Wtime() - local_runtime[1];
+    }
+    // TOTAL GATHERING TIME ENDS HERE (Timing only matters for Rank 0 process)
+
+    delete data, tmp_array;
+
+    if (myid == 0)
+    {
+        local_runtime[0] = MPI_Wtime() - local_runtime[0];
+    }
+    // TOTAL COMPUTATION ENDS HERE (Timing only matters for Rank 0 process)
+
+    // [0]; Measure the total time it takes to ingest, sort, and gather sorted data.
+    // [1]; Measure the total time it takes to gather sorted data.
+    // [2]; Measure the individual data ingestion time of each process. (min, max, avg)
+    // [3]; Measure the indvidual computation time of each process. (min, max, avg)
+    double global_min[4]; // Only need [2], [3]
+    double global_max[4]; // Only need [2], [3]
+    double global_avg[4]; // Only need [2], [3]
+
+    MPI_Reduce(&local_runtime, &global_min, 4, MPI_DOUBLE, MPI_MIN, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&local_runtime, &global_max, 4, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&local_runtime, &global_avg, 4, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+
+    if (myid == 0)
+    {
+        std::cout << std::fixed;
+        std::cout << "==========\n";
+        std::cout << "Processes: " << count_processes << "\n";
+        std::cout << "Input Size: " << data_size * count_processes << "\n";
+        std::cout << "==========\n";
+        std::cout << "Total Computation: " << local_runtime[0] << "\n";
+        std::cout << "Total Gathering: " << local_runtime[1] << "\n";
+        std::cout << "==========\n";
+        std::cout << "Individual Data Ingestion Min: " << global_min[2] << "\n";
+        std::cout << "Individual Data Ingestion Max: " << global_max[2] << "\n";
+        std::cout << "Individual Data Ingestion Avg: " << global_avg[2] / count_processes << "\n";
+        std::cout << "==========\n";
+        std::cout << "Individual Computation Min: " << global_min[3] << "\n";
+        std::cout << "Individual Computation Max: " << global_max[3] << "\n";
+        std::cout << "Individual Computation Avg: " << global_avg[3] / count_processes << std::endl;
+    }
 
 
-    free(tmp_array);
-    delete(data);
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Finalize();
+
+
+    return EXIT_SUCCESS;
 }
