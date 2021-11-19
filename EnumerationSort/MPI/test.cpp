@@ -53,14 +53,14 @@ int main(int argc, char *argv[]) {
         for (int i = 0; i < numprocs; ++i) {  // i represents id of process
             number = data[i];
 
-            printf("i: %d\n", i);
-            printf("i != 0: %d\n", i != 0);
+            // printf("i: %d\n", i);
+            // printf("i != 0: %d\n", i != 0);
 
             // send value to corresponding proc's reg X
             if (i != 0) {  //if not the main process, send the number to process i
-                printf("Process %d Sending Element: %d to Process %d\n", myid, element, i);
+                // printf("Process %d Sending Element: %d to Process %d\n", myid, element, i);
                 MPI_Send(&number, 1, MPI_INT, i, ELEMENT_TAG, MPI_COMM_WORLD);
-                printf("SEND SUCCESS\n");
+                // printf("SEND SUCCESS\n");
             } else {
                 element = number;  // if process is main, element is first one in input array
             }
@@ -72,15 +72,15 @@ int main(int argc, char *argv[]) {
         MPI_Barrier(MPI_COMM_WORLD);
         MPI_Barrier(MPI_COMM_WORLD);
     } else {  // sub procs
-        printf("SUB PROCESS: %d\n", myid);
+        // printf("SUB PROCESS: %d\n", myid);
         MPI_Barrier(MPI_COMM_WORLD);
-        printf("SUB PROCESS POST BARRIER\n");
+        // printf("SUB PROCESS POST BARRIER\n");
 
         MPI_Recv(&element, 1, MPI_INT, 0, ELEMENT_TAG, MPI_COMM_WORLD, &stat);
         MPI_Barrier(MPI_COMM_WORLD);
-        printf("Passed Barrier 2\n");
+        // printf("Passed Barrier 2\n");
 
-        printf("Process %d Recieved Element: %d \n", myid, element);
+        // printf("Process %d Recieved Element: %d \n", myid, element);
 
         // do comparsion
         for (int i = 0; i < numprocs; ++i) {
@@ -95,17 +95,17 @@ int main(int argc, char *argv[]) {
 
     // assign element to sorted array
     sorted[final_index] = element;
-    printf("sorted[%d]: %d \n", final_index, sorted[final_index]);
+    // printf("sorted[%d]: %d \n", final_index, sorted[final_index]);
 
-    printf("Barrier 3: %d \n", myid);
+    // printf("Barrier 3: %d \n", myid);
     MPI_Barrier(MPI_COMM_WORLD);
     if (myid == 0) {
-        printf("Sorted Data: \n");
+        printf("\nSorted Data: \n");
         for (int i = 0; i < numprocs; i++) {
             printf("%d: %d \n", i, sorted[i]);
         }
     }
-    printf("POST PRINT\n");
+    // printf("POST PRINT\n");
 
     MPI_Finalize();
     return 0;
