@@ -79,7 +79,7 @@ int main(int argc, char *argv[]) {
         printf("MAIN PROCESS\n");
         int number;
 
-        for (int i = 0; i < data_size; ++i) {  // i represents id of process
+        for (int i = 0; i < numprocs; ++i) {  // i represents id of process
             number = data[i];
 
             printf(" %d \n", number);
