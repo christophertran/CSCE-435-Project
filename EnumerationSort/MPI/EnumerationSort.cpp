@@ -18,6 +18,7 @@
 // these are tests
 // #include <algorithm>
 #include <string.h>
+
 #include <fstream>
 #include <iostream>
 
@@ -69,27 +70,30 @@ int main(int argc, char *argv[]) {
     reg_y = REG_EMPTY;
     reg_z = REG_EMPTY;
 
-
     // printf("PRE SORT\n");
 
+    // x reg is for a processes current value and y is comparison register
+    // z is final array register
+    // c is count register
     if (myid == 0) {  // main proc
-        // printf("MAIN PROCESS\n");
+        printf("MAIN PROCESS\n");
         int number;
 
-        for (int i = 0; i < data_size; ++i) {
+        for (int i = 0; i < data_size; ++i) {  // i represents id of process
             number = data[i];
 
-            printf(" %d", number);
+            printf(" %d \n", number);
 
             // send value to corresponding proc's reg X
-            if (i != 0) {
+            if (i != 0) {  //if not the main process, send the number to process i
                 MPI_Send(&number, 1, MPI_INT, i, REG_TAG_X, MPI_COMM_WORLD);
             } else {
-                reg_x = number;
+                reg_x = number;  // if process is main, set x reg to current number
             }
 
-            reg_y = number;
-            compare += (reg_x < reg_y);
+            reg_y = number;              // set y reg to current number and compare with x reg
+            compare += (reg_x < reg_y);  // if comparision number is greater than this processes
+                                         // value, increment comparison
 
             // send it to my neighbour's Y reg
             MPI_Send(&reg_y, 1, MPI_INT, myid + 1, REG_TAG_Y, MPI_COMM_WORLD);
@@ -138,8 +142,9 @@ int main(int argc, char *argv[]) {
         }
 
         // broadcast index of proc to wait for a msg
-        MPI_Bcast(&value, 1, MPI_INT, i, MPI_COMM_WORLD);
+        MPI_Bcast(&value, 1, MPI_INT, i, MPI_COMM_WORLD); // we send or receive all values to all processes.
 
+        // send x value to reg z 
         if (myid == i && compare != myid) {
             MPI_Send(&reg_x, 1, MPI_INT, compare, REG_TAG_Z, MPI_COMM_WORLD);
         }
