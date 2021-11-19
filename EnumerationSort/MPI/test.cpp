@@ -33,20 +33,22 @@ int main(int argc, char *argv[]) {
     MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
     MPI_Comm_rank(MPI_COMM_WORLD, &myid);
 
-    // load random data
-    int *data;  // this is the data we're sorting
-    unsigned long data_size;
-    fill_array_from_binary_file(&data, argv[1], myid, numprocs, data_size);
-
-    int sorted[numprocs];  // this is our sorted array
-    int number;            // a temp variable for every element in the input array
-    int element;           // this is the element assigned to this process
-    int final_index = 0;   // this is the index of the element assigned to this process
-                           // in the final sorted array
+    int sorted[numprocs];    // this is our sorted array
+    int indices[numprocs];   // final indices of all processes
+    int elements[numprocs];  // elements held by all processes
+    int number;              // a temp variable for every element in the input array
+    int element;             // this is the element assigned to this process
+    int final_index = 0;     // this is the index of the element assigned to this process
+                             // in the final sorted array
 
     // start sorting
     if (myid == 0) {  // main proc
         printf("MAIN PROCESS\n");
+
+        // load random data
+        int *data;  // this is the data we're sorting
+        unsigned long data_size;
+        fill_array_from_binary_file(&data, argv[1], myid, numprocs, data_size);
 
         printf("numprocs: %d \n", numprocs);
 
@@ -97,12 +99,21 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // assign element to sorted array
-    sorted[final_index] = element;
-    printf("sorted[%d]: %d \n", final_index, sorted[final_index]);
+    // wait for all index calculations
+    MPI_Barrier(MPI_COMM_WORLD);
+
+    MPI_Gather(&element, 1, MPI_FLOAT, elements, 1, MPI_FLOAT, 0, MPI_COMM_WORLD);
+    MPI_Gather(&final_index, 1, MPI_FLOAT, indices, 1, MPI_FLOAT, 0, MPI_COMM_WORLD);
 
     MPI_Barrier(MPI_COMM_WORLD);
+
     if (myid == 0) {
+        // assign element to sorted array
+        for (int i = 0; i < numprocs; i++) {
+            sorted[indices[i]] = elements[i];
+        }
+
+        // print sorted array
         printf("\nSorted Data: \n");
         for (int i = 0; i < numprocs; i++) {
             printf("%d: %d \n", i, sorted[i]);
