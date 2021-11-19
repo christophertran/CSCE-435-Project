@@ -52,7 +52,9 @@ int main(int argc, char *argv[]) {
 
             // send value to corresponding proc's reg X
             if (i != 0) {  //if not the main process, send the number to process i
+                printf("Process %d Sending Element: %d to Process %d\n", myid, element, i);
                 MPI_Send(&number, 1, MPI_INT, i, ELEMENT_TAG, MPI_COMM_WORLD);
+                printf("SEND SUCCESS\n");
             } else {
                 element = number;  // if process is main, element is first one in input array
             }
