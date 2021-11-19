@@ -62,6 +62,7 @@ int main(int argc, char *argv[]) {
     } else {  // sub procs
         // printf("SUB PROCESS\n");
         MPI_Recv(&element, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &stat);
+        printf("Process %d Recieved Element: %d \n", myid, element);
 
         // do comparsion
         for (int i = 0; i < data_size; ++i) {
