@@ -74,17 +74,12 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // wait for all processses to calculate their element's final index
-    printf("Barrier 2: %d \n", myid);
-    MPI_Barrier(MPI_COMM_WORLD);
-
     // assign element to sorted array
     sorted[final_index] = element;
+    printf("sorted[%d]: %d \n", final_index, sorted[final_index]);
 
-    printf("Barrier 3\n");
+    printf("Barrier 3: %d \n", myid);
     MPI_Barrier(MPI_COMM_WORLD);
-
-    printf("PRE PRINT\n");
     if (myid == 0) {
         printf("Sorted Data: \n");
         for (int i = 0; i < data_size; i++) {
