@@ -44,8 +44,7 @@ int main(int argc, char *argv[]) {
 
     // start sorting
     if (myid == 0) {  // main proc
-        printf("MAIN PROCESS\n");
-        printf("Num Process: %d \n", numprocs);
+        // printf("MAIN PROCESS\n");
         for (int i = 0; i < data_size; ++i) {  // i represents id of process
             number = data[i];
 
@@ -61,7 +60,7 @@ int main(int argc, char *argv[]) {
         }
         printf("\n");
     } else {  // sub procs
-        printf("SUB PROCESS\n");
+        // printf("SUB PROCESS\n");
         MPI_Recv(&element, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &stat);
 
         // do comparsion
@@ -76,19 +75,23 @@ int main(int argc, char *argv[]) {
     }
 
     // wait for all processses to calculate their element's final index
+    printf("Barrier 2\n");
     MPI_Barrier(MPI_COMM_WORLD);
 
     // assign element to sorted array
     sorted[final_index] = element;
 
+    printf("Barrier 3\n");
     MPI_Barrier(MPI_COMM_WORLD);
 
+    printf("PRE PRINT\n");
     if (myid == 0) {
         printf("Sorted Data: \n");
         for (int i = 0; i < data_size; i++) {
             printf("%d: %d \n", i, sorted[i]);
         }
     }
+    printf("POST PRINT\n");
 
     MPI_Finalize();
     return 0;
