@@ -49,23 +49,7 @@ Our main communication method will be through Discord.
     end ODD-EVEN_PAR
     ```
 
-2. Parallel Merge Sort (MPI)
-
-    ```text
-    procedure PARALLEL_MERGE_SORT(id, n, data, newdata)
-
-    begin
-    data = sequentialmergesort(data)
-        
-        for dim = 1 to n
-            data = parallelmerge(id, dim, data)
-        endfor
-            
-    newdata = data
-    end PARALLEL_MERGE_SORT
-    ```
-
-3. Enumeration Sort (MPI)
+2. Enumeration Sort (MPI)
 
     ```text
     procedure ENUM_SORTING (n)
@@ -85,6 +69,22 @@ Our main communication method will be through Discord.
         A[C[j]] := A[j];
             
     end ENUM_SORTING
+    ```
+
+3. Parallel Merge Sort (MPI)
+
+    ```text
+    procedure PARALLEL_MERGE_SORT(id, n, data, newdata)
+
+    begin
+    data = sequentialmergesort(data)
+        
+        for dim = 1 to n
+            data = parallelmerge(id, dim, data)
+        endfor
+            
+    newdata = data
+    end PARALLEL_MERGE_SORT
     ```
 
 4. Hyper Quick Sort (MPI)
@@ -136,13 +136,7 @@ Our main communication method will be through Discord.
 
     Now the actual Odd-Even portion of the sort occurs. Each process will sort locally its chunk of values using quick sort. Then based on whether it is the Odd phase or the Even phase, each process will pair up with a partner process to swap data is necessary. The swapping continues as many times as there are processes. This is to ensure that we swap all local process data if necessary and we end up with the final data as being sorted.
 
-2. Parallel Merge Sort (MPI)
-
-    Parallel Merge Sort is a parallel version of the well-known mergesort algorithm. This algorithm assumes that the sequence to be sorted is distributed and so generates a distributed sorted sequence. To simplify things, we distribute the data evenly among the processors, and make sure that the processors are an integer power of two.
-
-    In the MPI implementation, each process first reads from a binary file containing a predetermined amount of random numbers. Each process takes a specific chunk from the amount of random numbers assigned by rank, with the size of the chunk being determined by the rank and the total number of processes. Once this occurs, the merge begins. Each process performs a mergesort on their specific sections of the original data set, which is then combined back into a larger array on the primary process that is merged again. Then the sorted array is output to the console.
-
-3. Enumeration Sort (MPI)
+2. Enumeration Sort (MPI)
 
     The enumeration sort is a parallel sorting algorithm that comparesevery element of an array to every other element in the array. Each element is assigned a count. An element's count is incremented by one when compared to an element with a smaller value. At the end of the comparisons, each element is placed in an array at the index of its count. This algorithm indexes elements based on how many elements they're greater than.
 
@@ -151,6 +145,12 @@ Our main communication method will be through Discord.
     The MPI implementation starts by having the main process send each element in the array to all other processes. Each subprocess then takes the value it recieves from the main process and compares it to the entire array using a for-loop. Each process has its count variable which is incremented as the comparison takes place.
 
     An MPI Barrier is used to stall all processes until all comparison is done. Then, each process broadcasts it's count variable and element value. These pairs of data are compiled into a sorted list by the main process and printed.
+
+3. Parallel Merge Sort (MPI)
+
+    Parallel Merge Sort is a parallel version of the well-known mergesort algorithm. This algorithm assumes that the sequence to be sorted is distributed and so generates a distributed sorted sequence. To simplify things, we distribute the data evenly among the processors, and make sure that the processors are an integer power of two.
+
+    In the MPI implementation, each process first reads from a binary file containing a predetermined amount of random numbers. Each process takes a specific chunk from the amount of random numbers assigned by rank, with the size of the chunk being determined by the rank and the total number of processes. Once this occurs, the merge begins. Each process performs a mergesort on their specific sections of the original data set, which is then combined back into a larger array on the primary process that is merged again. Then the sorted array is output to the console.
 
 4. Hyper Quick Sort (MPI)
 
@@ -168,6 +168,8 @@ Another source of variation that we will be testing is varying the number of nod
 
 Overall we will be looking for trends in the sorting algorithms with various inputs and input sizes as well as with various numbers of nodes/processes.
 
+## 4. _due 11/19_ Performance evaluation
+
 - Input sizes: 2,560; 25,600; 256,000; 2,560,000;
 - Process sizes: 8; 16; 32; 64; 128; 256;
 - Input types:
@@ -182,48 +184,58 @@ Overall we will be looking for trends in the sorting algorithms with various inp
   - Individual computation time (min, max, avg)
     - Measure the indvidual computation time of each process.
   - Individual data ingestion time (min, max, avg)
-    - Measure the individual data ingestion time of each process.
+    - Measure the individual data ingestion time of each process. Or the time taken by each process to read in their respective data to be sorted.
 
-Graphs that we should include for each algorithm...
+- Figures
+  - The figures do NOT include the information for "Sort 2" aka "Enumeration Sort." This is because data collection from enumeration sort required the use of values where the number of processes were equal to the number of values being sorted. This is attributed simply to the nature of how the algorithm operates.
+  - ![Picture 1](https://drive.google.com/uc?export=view&id=1KRCgOdn08aNsZ-aEIgqzbBgaLLe4Fs3y)
+  - ![Picture 2](https://drive.google.com/uc?export=view&id=1tryLPHf4ACCsoURyyaEJErCILa4IjSUf)
+  - ![Picture 3](https://drive.google.com/uc?export=view&id=1Y3LfDiNBIwDeb__3HYt7_-fwjPSLCo7e)
+  - ![Picture 4](https://drive.google.com/uc?export=view&id=1ZIn5nNeL9U3igkwq84rmh-hTdm6f-c9M)
+  - ![Picture 5](https://drive.google.com/uc?export=view&id=1kNjTKyvpAKBo645gUwp_Y_tFBOpoLIvN)
+  - ![Picture 6](https://drive.google.com/uc?export=view&id=1l9-nUyXgWD-I9sw_xs4N-ioVFr99vMuT)
+  - ![Picture 7](https://drive.google.com/uc?export=view&id=1zEADa4a0FUFuzxTabySnBd_-lM6tffP6)
+  - ![Picture 8](https://drive.google.com/uc?export=view&id=19a7uwxfGRylzO8Dg2_Mr-i5-1DtwwWnf)
+  - ![Picture 9](https://drive.google.com/uc?export=view&id=1AQClwaiW2DUo6x6QS4ffFwW0sRF1PL_4)
+  - ![Picture 10](https://drive.google.com/uc?export=view&id=1-X0zRYIMKCA_5P2lFoEJYSxNcBZb_Dm-)
 
-- For each input size (4) and for each input type (3) we should include a graph with each measurement point (4) for each number of processes (6).
-- This means, overall, for each input size, we should have 3 graphs. This is a total of 12 graphs per sorting algorithm and 48 graphs for the project.
-  - Random 2,560
-  - Random 25,600
-  - ...
-  - Sorted 2,560
-  - Sorted 25,600
-  - ...
-  - Reversed (Sorted) 2,560,000
+1. Odd-Even Transposition Sort (MPI)
 
-## 4. _due 11/19_ Performance evaluation
+    The Odd-Even Transposition Sort performed comparably to the Enumeration Sort as opposed to the Parallel Merge Sort and the Hyper Quick Sort. This sort saw increases in total computation time as the number of processes increased for a fixed problem set. This means it doesn't exhibit strong scaling. This can be mainly attributed to the communication overhead between processes. This is because according to the algorithm, between each odd or even "phase" each process must communicate with one another the necessary information on whether or not a swap should be made between them. There was also the overhead that it takes to swap values between processes. Similarly to all the other sorts, this sort suffered from the communication overhead of gathering the sorted data at the end as well because a single process was handling the gathering of data from multiple processes. Additionally, individual process times were decreased as the # of processes increase as expected because each process has to handle much less values.
 
-3. Enumeration Sort (MPI)
-For the enumeration sort, we were only able to demonstrate weak scaling due to the way the algorithm 
-is implemented. For a given problem size, the algorithm, implemented as it is in this project, must
-have the same number of processes. This only allows for varying the number of processors for a fixed
-problem size. 
+2. Enumeration Sort (MPI)
 
-The execution times for the enumeration sort were much higher than the other three sorts in this project despite smaller problem sizes. This is because the algorithm has to leverage extensive blocking to make sure that the main process doesn't broadcast too early. This algorithm also followed more of an arc in execution time than the other algorithms. The other ones sharply increased in execution time with problem size, but the enumeration sort saw a decline after a certain problem size. This was only for weak scaling since the enum sort doesn't have applications with regards to strong scaling or GPU performance.
+    For the enumeration sort, we were only able to demonstrate weak scaling due to the way the algorithm
+    is implemented. For a given problem size, the algorithm, implemented as it is in this project, must
+    have the same number of processes. This only allows for varying the number of processors for a fixed
+    problem size.
 
-![](https://drive.google.com/uc?export=view&id=1wv0d9G2kzXlNKuROb2y9eMiNiMzJh1KH)
-This first figure demonstrates a steady increase in the time taken to gather all the broadcasted data
-from the back part of the algorithm, with a decline past 800. This is likely
-due to the fact that even though we have more overhead from the processes and the problem size
-the algorithm has more similar values to compare to due to the increase in spread of the initial random
-data array. This allows for small speedups throughout the comparison phase of the algorithm. The three 
-input types demonstrated similar performance, indicating no real difference in operation. This is most 
-likely due to the fact that the enumeration sort is a naive algorithm that runs in O(k*n) time no matter
-the input. 
-![](https://drive.google.com/uc?export=view&id=1S2sO6D0onDYCk9gEOdjlfpgR3MzTiQBQ)
-![](https://drive.google.com/uc?export=view&id=1icIA1lt5Kmbuz1fVLcpdtcFcAUEj7d3J)
-![](https://drive.google.com/uc?export=view&id=1MpyprdqpUckupTT7SYmeotPKHM4fBsrF)
+    The execution times for the enumeration sort were much higher than the other three sorts in this project despite smaller problem sizes. This is because the algorithm has to leverage extensive blocking to make sure that the main process doesn't broadcast too early. This algorithm also followed more of an arc in execution time than the other algorithms. The other ones sharply increased in execution time with problem size, but the enumeration sort saw a decline after a certain problem size. This was only for weak scaling since the enum sort doesn't have applications with regards to strong scaling or GPU performance.
 
-We can see from the slight downward linear shift in execution time of the individual gathering time from the overall gathering time that the individual gathering time represented the majority of the computation time in the program. This is because multiple blocking broadcast statements had to be made in addition to a second O(n) pass through the original array. 
+    ![Total Gathering Time vs. Problem Size](https://drive.google.com/uc?export=view&id=1wv0d9G2kzXlNKuROb2y9eMiNiMzJh1KH)
 
-Include detailed analysis of computation performance, communication performance.
+    This first figure demonstrates a steady increase in the time taken to gather all the broadcasted data
+    from the back part of the algorithm, with a decline past 800. This is likely
+    due to the fact that even though we have more overhead from the processes and the problem size
+    the algorithm has more similar values to compare to due to the increase in spread of the initial random
+    data array. This allows for small speedups throughout the comparison phase of the algorithm. The three
+    input types demonstrated similar performance, indicating no real difference in operation. This is most
+    likely due to the fact that the enumeration sort is a naive algorithm that runs in O(k*n) time no matter
+    the input.
 
-Include figures and explanation of your analysis.
+    ![Individual Gathering Average Time vs. Problem Size](https://drive.google.com/uc?export=view&id=1S2sO6D0onDYCk9gEOdjlfpgR3MzTiQBQ)
+    ![Total Computation Time vs. Problem Size](https://drive.google.com/uc?export=view&id=1icIA1lt5Kmbuz1fVLcpdtcFcAUEj7d3J)
+    ![Data Ingestion Average Time vs. Problem Size](https://drive.google.com/uc?export=view&id=1MpyprdqpUckupTT7SYmeotPKHM4fBsrF)
+
+    We can see from the slight downward linear shift in execution time of the individual gathering time from the overall gathering time that the individual gathering time represented the majority of the computation time in the program. This is because multiple blocking broadcast statements had to be made in addition to a second O(n) pass through the original array.
+
+3. Parallel Merge Sort (MPI)
+
+    The Parallel Merge Sort performed comparably to the Hyper Quick Sort as opposed to the Odd-Even Sort and the Enumeration Sort. This sort saw decreases in total computation time as the number of processes increased for a fixed problem set. This means it exhibits strong scaling. However, the gather time increased as the number of processes increased as expected, since a single process has to manage gathering sorted data from all other processes. This was a bottleneck in the algorithm. This caused the runtimes of higher # of processes to actually be higher than the runtime of those with lower # of processes as the communication overhead during the gathering phase became very significant. Additionally, individual process times were decreased as the # of processes increase as expected because each process has to handle much less values.
+
+4. Hyper Quick Sort (MPI)
+
+    The Hyper Quick Sort performed comparably to the parallel merge sort as opposed to the Odd-Even Sort and the Enumeration Sort. This sort saw decreases in total computation time as the number of processes increased for a fixed problem set. This means it exhibits strong scaling. However, the gather time increased as the number of processes increased as expected, since a single process has to manage gathering sorted data from all other processes. This was a bottleneck in the algorithm. This caused the runtimes of higher # of processes to actually be higher than the runtime of those with lower # of processes as the communication overhead during the gathering phase became very significant. Additionally, individual process times were decreased as the # of processes increase as expected because each process has to handle much less values.
 
 ## 5. _due 12/1_ Presentation, 5 min + questions
 
