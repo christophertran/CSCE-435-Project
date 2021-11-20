@@ -155,9 +155,10 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < numprocs; ++i) {
         if (myid == 0) {
             if (reg_z != REG_EMPTY) {
-                for (size_t i = 0; i < z_count; i++)
-                    printf(" %d \n", reg_z);
-
+                for (size_t i = 0; i < z_count; i++) {
+                    // printf(" %d \n", reg_z);
+                    ;
+                }
             }
         }
 
