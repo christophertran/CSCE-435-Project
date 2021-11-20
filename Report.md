@@ -198,11 +198,21 @@ Graphs that we should include for each algorithm...
 
 ## 4. _due 11/19_ Performance evaluation
 
+3. Enumeration Sort (MPI)
+For the enumeration sort, we were only able to demonstrate weak scaling due to the way the algorithm 
+is implemented. For a given problem size, the algorithm, implemented as it is in this project, must
+have the same number of processes. This only allows for varying the number of processors for a fixed
+problem size. 
+
+![](https://drive.google.com/uc?export=view&id=1wv0d9G2kzXlNKuROb2y9eMiNiMzJh1KH)
+This first figure demonstrates a steady increase in the number 
+![](https://drive.google.com/uc?export=view&id=1S2sO6D0onDYCk9gEOdjlfpgR3MzTiQBQ)
+![](https://drive.google.com/uc?export=view&id=1icIA1lt5Kmbuz1fVLcpdtcFcAUEj7d3J)
+![](https://drive.google.com/uc?export=view&id=1MpyprdqpUckupTT7SYmeotPKHM4fBsrF)
+
 Include detailed analysis of computation performance, communication performance.
 
 Include figures and explanation of your analysis.
-
-![alt text](image.jpg)
 
 ## 5. _due 12/1_ Presentation, 5 min + questions
 
