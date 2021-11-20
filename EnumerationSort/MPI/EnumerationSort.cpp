@@ -151,14 +151,15 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // print the result
-    for (int i = 0; i < numprocs; ++i) {
-        if (myid == 0) {
-            if (reg_z != REG_EMPTY) {
-                for (size_t i = 0; i < z_count; i++)
-                    // printf(" %d \n", reg_z);
-            }
-        }
+    // // print the result
+    // for (int i = 0; i < numprocs; ++i) {
+    //     if (myid == 0) {
+    //         if (reg_z != REG_EMPTY) {
+    //             for (size_t i = 0; i < z_count; i++)
+    //                 printf(" %d \n", reg_z);
+
+    //         }
+    //     }
 
         if (myid != 0) {
             MPI_Send(&reg_z, 1, MPI_INT, myid - 1, REG_TAG_Z, MPI_COMM_WORLD);
