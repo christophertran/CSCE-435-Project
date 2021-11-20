@@ -15,4 +15,4 @@
 #
 module load intel/2020b       # load Intel software stack 
 #
-mpirun -np 4 ./HyperQuickSort.exe 100numbers.bin
+mpirun -np 8 ./HyperQuickSort.exe 2560 RAND
