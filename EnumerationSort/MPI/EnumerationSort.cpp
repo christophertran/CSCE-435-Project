@@ -151,7 +151,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // // print the result
+    // print the result
     // for (int i = 0; i < numprocs; ++i) {
     //     if (myid == 0) {
     //         if (reg_z != REG_EMPTY) {
@@ -161,15 +161,15 @@ int main(int argc, char *argv[]) {
     //         }
     //     }
 
-        if (myid != 0) {
-            MPI_Send(&reg_z, 1, MPI_INT, myid - 1, REG_TAG_Z, MPI_COMM_WORLD);
-            MPI_Send(&z_count, 1, MPI_INT, myid - 1, REG_TAG_ZC, MPI_COMM_WORLD);
-        }
-        if (myid != numprocs - 1) {
-            MPI_Recv(&reg_z, 1, MPI_INT, myid + 1, REG_TAG_Z, MPI_COMM_WORLD, &stat);
-            MPI_Recv(&z_count, 1, MPI_INT, myid + 1, REG_TAG_ZC, MPI_COMM_WORLD, &stat);
-        }
-    }
+    //     if (myid != 0) {
+    //         MPI_Send(&reg_z, 1, MPI_INT, myid - 1, REG_TAG_Z, MPI_COMM_WORLD);
+    //         MPI_Send(&z_count, 1, MPI_INT, myid - 1, REG_TAG_ZC, MPI_COMM_WORLD);
+    //     }
+    //     if (myid != numprocs - 1) {
+    //         MPI_Recv(&reg_z, 1, MPI_INT, myid + 1, REG_TAG_Z, MPI_COMM_WORLD, &stat);
+    //         MPI_Recv(&z_count, 1, MPI_INT, myid + 1, REG_TAG_ZC, MPI_COMM_WORLD, &stat);
+    //     }
+    // }
 
     MPI_Finalize();
     return 0;
