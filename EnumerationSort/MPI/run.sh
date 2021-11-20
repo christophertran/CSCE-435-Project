@@ -12,7 +12,7 @@
 #SBATCH --output=output."$1_$2"  #Send stdout/err to "output.[jobID]" 
 #
 module load intel/2020b       # load Intel software stack
-mpiicc EnumerationSort.cpp -o EnumerationSort.exe #  
+mpiicc EnumerationSort.cpp -o EnumerationSort.exe  
 rm output.*
 rm *.bin
 rm core.*

@@ -72,11 +72,11 @@ int main(int argc, char *argv[]) {
     // z is final array register
     // c is count register
     if (myid == 0) {  // main proc
-        time = MPI_Wtime();
+        // time = MPI_Wtime();
         int *data;
         unsigned long data_size;
         fill_array_from_binary_file(&data, argv[1], myid, numprocs, data_size);
-        printf("Data Ingestion Time: %f\n", MPI_Wtime() - time);
+        // printf("Data Ingestion Time: %f\n", MPI_Wtime() - time);
 
         int number;
 
@@ -122,6 +122,7 @@ int main(int argc, char *argv[]) {
     int value;  // value to send
 
     // move results to register Z depending on compare register value
+    time = MPI_Wtime();
     for (int i = 0; i < numprocs; i++) {
         MPI_Barrier(MPI_COMM_WORLD);
         if (myid == i) {
@@ -149,6 +150,10 @@ int main(int argc, char *argv[]) {
             MPI_Recv(&reg_z, 1, MPI_INT, i, REG_TAG_Z, MPI_COMM_WORLD, &stat);
             z_count++;
         }
+    }
+
+    if (myid == 0) {
+        printf("Data Ingestion Time: %f\n", MPI_Wtime() - time);
     }
 
     // print the result
