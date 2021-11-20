@@ -163,7 +163,9 @@ int main(int argc, char *argv[]) {
     //     printf("Individual Gathering Average: %f\n", global_sum / numprocs);
     // }
 
-    printf("Total Computation Time: %f\n", MPI_Wtime() - time);
+    if (myid == 0) {
+        printf("Total Computation Time: %f\n", MPI_Wtime() - time);
+    }
 
     // print the result
     for (int i = 0; i < numprocs; ++i) {
