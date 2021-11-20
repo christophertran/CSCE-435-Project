@@ -204,11 +204,22 @@ is implemented. For a given problem size, the algorithm, implemented as it is in
 have the same number of processes. This only allows for varying the number of processors for a fixed
 problem size. 
 
+The execution times for the enumeration sort were much higher than the other three sorts in this project despite smaller problem sizes. This is because the algorithm has to leverage extensive blocking to make sure that the main process doesn't broadcast too early. This algorithm also followed more of an arc in execution time than the other algorithms. The other ones sharply increased in execution time with problem size, but the enumeration sort saw a decline after a certain problem size. This was only for weak scaling since the enum sort doesn't have applications with regards to strong scaling or GPU performance.
+
 ![](https://drive.google.com/uc?export=view&id=1wv0d9G2kzXlNKuROb2y9eMiNiMzJh1KH)
-This first figure demonstrates a steady increase in the number 
+This first figure demonstrates a steady increase in the time taken to gather all the broadcasted data
+from the back part of the algorithm, with a decline past 800. This is likely
+due to the fact that even though we have more overhead from the processes and the problem size
+the algorithm has more similar values to compare to due to the increase in spread of the initial random
+data array. This allows for small speedups throughout the comparison phase of the algorithm. The three 
+input types demonstrated similar performance, indicating no real difference in operation. This is most 
+likely due to the fact that the enumeration sort is a naive algorithm that runs in O(k*n) time no matter
+the input. 
 ![](https://drive.google.com/uc?export=view&id=1S2sO6D0onDYCk9gEOdjlfpgR3MzTiQBQ)
 ![](https://drive.google.com/uc?export=view&id=1icIA1lt5Kmbuz1fVLcpdtcFcAUEj7d3J)
 ![](https://drive.google.com/uc?export=view&id=1MpyprdqpUckupTT7SYmeotPKHM4fBsrF)
+
+We can see from the slight downward linear shift in execution time of the individual gathering time from the overall gathering time that the individual gathering time represented the majority of the computation time in the program. This is because multiple blocking broadcast statements had to be made in addition to a second O(n) pass through the original array. 
 
 Include detailed analysis of computation performance, communication performance.
 
