@@ -21,7 +21,7 @@ rm core.*
 g++ RandomNumberGenerator.cpp -o RandomNumberGenerator
 
 # generate binary files for random numbers
-for size in 2560 25600 256000 2560000
+for size in 200 400 600 800 1000
 do
     for type in 0 1 2
     do
@@ -29,18 +29,21 @@ do
     done
 done
 
-./run.grace_job  2560 "2560_random_numbers.bin"
-./run.grace_job  2560 "2560_reversed_numbers.bin"
-./run.grace_job  2560 "2560_sorted_numbers.bin"
-./run.grace_job  25600 "25600_random_numbers.bin"
-./run.grace_job  25600 "25600_reversed_numbers.bin"
-./run.grace_job  25600 "25600_sorted_numbers.bin"
-./run.grace_job  256000 "256000_random_numbers.bin"
-./run.grace_job  256000 "256000_reversed_numbers.bin"
-./run.grace_job  256000 "256000_sorted_numbers.bin"
-./run.grace_job  2560000 "2560000_random_numbers.bin"
-./run.grace_job  2560000 "2560000_reversed_numbers.bin"
-./run.grace_job  2560000 "2560000_sorted_numbers.bin"
+./run.grace_job 200 "200_random_numbers.bin"
+./run.grace_job 200 "200_reversed_numbers.bin"
+./run.grace_job 200 "200_sorted_numbers.bin"
+./run.grace_job 400 "400_random_numbers.bin"
+./run.grace_job 400 "400_reversed_numbers.bin"
+./run.grace_job 400 "400_sorted_numbers.bin"
+./run.grace_job 600 "600_random_numbers.bin"
+./run.grace_job 600 "600_reversed_numbers.bin"
+./run.grace_job 600 "600_sorted_numbers.bin"
+./run.grace_job 800 "800_random_numbers.bin"
+./run.grace_job 800 "800_reversed_numbers.bin"
+./run.grace_job 800 "800_sorted_numbers.bin"
+./run.grace_job 1000 "1000_random_numbers.bin"
+./run.grace_job 1000 "1000_reversed_numbers.bin"
+./run.grace_job 1000 "1000_sorted_numbers.bin"
 
 
 

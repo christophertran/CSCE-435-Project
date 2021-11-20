@@ -66,13 +66,17 @@ int main(int argc, char *argv[]) {
     reg_y = REG_EMPTY;
     reg_z = REG_EMPTY;
 
+    double time;
+
     // x reg is for a processes current value and y is comparison register
     // z is final array register
     // c is count register
     if (myid == 0) {  // main proc
+        time = MPI_Wtime();
         int *data;
         unsigned long data_size;
         fill_array_from_binary_file(&data, argv[1], myid, numprocs, data_size);
+        printf("Data Ingestion Time: %f\n", MPI_Wtime() - time);
 
         int number;
 
@@ -152,7 +156,7 @@ int main(int argc, char *argv[]) {
         if (myid == 0) {
             if (reg_z != REG_EMPTY) {
                 for (size_t i = 0; i < z_count; i++)
-                    printf(" %d \n", reg_z);
+                    // printf(" %d \n", reg_z);
             }
         }
 
