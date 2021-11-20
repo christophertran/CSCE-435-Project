@@ -60,29 +60,30 @@ int main(int argc, char *argv[]) {
     MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
     MPI_Comm_rank(MPI_COMM_WORLD, &myid);
 
-    int *data;
-    unsigned long data_size;
-    fill_array_from_binary_file(&data, argv[1], myid, numprocs, data_size);
-
     compare = 0;
     z_count = 0;
     reg_x = REG_EMPTY;
     reg_y = REG_EMPTY;
     reg_z = REG_EMPTY;
 
-    // printf("PRE SORT\n");
+    double time;
 
     // x reg is for a processes current value and y is comparison register
     // z is final array register
     // c is count register
+
+    time = MPI_Wtime();
     if (myid == 0) {  // main proc
-        printf("MAIN PROCESS\n");
+        // time = MPI_Wtime();
+        int *data;
+        unsigned long data_size;
+        fill_array_from_binary_file(&data, argv[1], myid, numprocs, data_size);
+        // printf("Data Ingestion Time: %f\n", MPI_Wtime() - time);
+
         int number;
 
         for (int i = 0; i < numprocs; ++i) {  // i represents id of process
             number = data[i];
-
-            printf(" %d \n", number);
 
             // send value to corresponding proc's reg X
             if (i != 0) {  //if not the main process, send the number to process i
@@ -98,9 +99,7 @@ int main(int argc, char *argv[]) {
             // send it to my neighbour's Y reg
             MPI_Send(&reg_y, 1, MPI_INT, myid + 1, REG_TAG_Y, MPI_COMM_WORLD);
         }
-        printf("\n");
     } else {  // sub procs
-        // printf("SUB PROCESS\n");
         MPI_Recv(&reg_x, 1, MPI_INT, 0, REG_TAG_X, MPI_COMM_WORLD, &stat);
 
         // do comparsion
@@ -119,14 +118,13 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // printf("Arrived at Barrier\n");
     // wait for all processors to calculate the element ranks;
     MPI_Barrier(MPI_COMM_WORLD);
-    // printf("Passed Barrier\n");
 
     int value;  // value to send
 
     // move results to register Z depending on compare register value
+    // time = MPI_Wtime();
     for (int i = 0; i < numprocs; i++) {
         MPI_Barrier(MPI_COMM_WORLD);
         if (myid == i) {
@@ -142,9 +140,9 @@ int main(int argc, char *argv[]) {
         }
 
         // broadcast index of proc to wait for a msg
-        MPI_Bcast(&value, 1, MPI_INT, i, MPI_COMM_WORLD); // we send or receive all values to all processes.
+        MPI_Bcast(&value, 1, MPI_INT, i, MPI_COMM_WORLD);  // we send or receive all values to all processes.
 
-        // send x value to reg z 
+        // send x value to reg z
         if (myid == i && compare != myid) {
             MPI_Send(&reg_x, 1, MPI_INT, compare, REG_TAG_Z, MPI_COMM_WORLD);
         }
@@ -156,12 +154,27 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    // time = MPI_Wtime() - time;
+    // double global_sum;
+
+    // MPI_Barrier(MPI_COMM_WORLD);
+    // MPI_Reduce(&time, &global_sum, 1, MPI_FLOAT, MPI_SUM, 0, MPI_COMM_WORLD);
+    // if (myid == 0) {
+    //     printf("Individual Gathering Average: %f\n", global_sum / numprocs);
+    // }
+
+    if (myid == 0) {
+        printf("Total Computation Time: %f\n", MPI_Wtime() - time);
+    }
+
     // print the result
     for (int i = 0; i < numprocs; ++i) {
         if (myid == 0) {
             if (reg_z != REG_EMPTY) {
-                for (size_t i = 0; i < z_count; i++)
-                    printf(" %d \n", reg_z);
+                for (size_t i = 0; i < z_count; i++) {
+                    // printf(" %d \n", reg_z);
+                    ;
+                }
             }
         }
 
