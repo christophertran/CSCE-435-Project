@@ -152,8 +152,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    time = MPI_Wtime() - time;
+    double global_sum;
+    MPI_Reduce(&local_sum, &global_sum, 1, MPI_FLOAT, MPI_SUM, 0, MPI_COMM_WORLD);
     if (myid == 0) {
-        printf("Data Ingestion Time: %f\n", MPI_Wtime() - time);
+        printf("Individual Gathering Average: %f\n", global_sum / numprocs);
     }
 
     // print the result
