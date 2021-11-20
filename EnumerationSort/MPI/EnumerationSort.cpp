@@ -71,6 +71,8 @@ int main(int argc, char *argv[]) {
     // x reg is for a processes current value and y is comparison register
     // z is final array register
     // c is count register
+
+    time = MPI_Wtime();
     if (myid == 0) {  // main proc
         // time = MPI_Wtime();
         int *data;
@@ -122,7 +124,7 @@ int main(int argc, char *argv[]) {
     int value;  // value to send
 
     // move results to register Z depending on compare register value
-    time = MPI_Wtime();
+    // time = MPI_Wtime();
     for (int i = 0; i < numprocs; i++) {
         MPI_Barrier(MPI_COMM_WORLD);
         if (myid == i) {
@@ -152,14 +154,16 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    time = MPI_Wtime() - time;
-    double global_sum;
+    // time = MPI_Wtime() - time;
+    // double global_sum;
 
-    MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Reduce(&time, &global_sum, 1, MPI_FLOAT, MPI_SUM, 0, MPI_COMM_WORLD);
-    if (myid == 0) {
-        printf("Individual Gathering Average: %f\n", global_sum / numprocs);
-    }
+    // MPI_Barrier(MPI_COMM_WORLD);
+    // MPI_Reduce(&time, &global_sum, 1, MPI_FLOAT, MPI_SUM, 0, MPI_COMM_WORLD);
+    // if (myid == 0) {
+    //     printf("Individual Gathering Average: %f\n", global_sum / numprocs);
+    // }
+
+    printf("Total Computation Time: %f\n", MPI_Wtime() - time);
 
     // print the result
     for (int i = 0; i < numprocs; ++i) {
