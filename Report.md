@@ -171,7 +171,7 @@ Overall we will be looking for trends in the sorting algorithms with various inp
 ## 4. _due 11/19_ Performance evaluation
 
 - Input sizes: 2,560; 25,600; 256,000; 2,560,000;
-- Process sizes: 8; 16; 32; 64; 128; 256;
+- Process sizes: 8; 16; 32; 64;
 - Input types:
   - Random
   - Sorted
@@ -186,22 +186,45 @@ Overall we will be looking for trends in the sorting algorithms with various inp
   - Individual data ingestion time (min, max, avg)
     - Measure the individual data ingestion time of each process. Or the time taken by each process to read in their respective data to be sorted.
 
-- Figures
+- All Measurment Figures
+  - Sort 1 is Odd-Even Transposition Sort, Sort 2 is Enumeration Sort, Sort 3 is Parallel Merge Sort, Sort 4 is Hyper Quick Sort
   - The figures do NOT include the information for "Sort 2" aka "Enumeration Sort." This is because data collection from enumeration sort required the use of values where the number of processes were equal to the number of values being sorted. This is attributed simply to the nature of how the algorithm operates.
-  - ![Picture 1](https://drive.google.com/uc?export=view&id=1KRCgOdn08aNsZ-aEIgqzbBgaLLe4Fs3y)
-  - ![Picture 2](https://drive.google.com/uc?export=view&id=1tryLPHf4ACCsoURyyaEJErCILa4IjSUf)
-  - ![Picture 3](https://drive.google.com/uc?export=view&id=1Y3LfDiNBIwDeb__3HYt7_-fwjPSLCo7e)
-  - ![Picture 4](https://drive.google.com/uc?export=view&id=1ZIn5nNeL9U3igkwq84rmh-hTdm6f-c9M)
-  - ![Picture 5](https://drive.google.com/uc?export=view&id=1kNjTKyvpAKBo645gUwp_Y_tFBOpoLIvN)
-  - ![Picture 6](https://drive.google.com/uc?export=view&id=1l9-nUyXgWD-I9sw_xs4N-ioVFr99vMuT)
-  - ![Picture 7](https://drive.google.com/uc?export=view&id=1zEADa4a0FUFuzxTabySnBd_-lM6tffP6)
-  - ![Picture 8](https://drive.google.com/uc?export=view&id=19a7uwxfGRylzO8Dg2_Mr-i5-1DtwwWnf)
-  - ![Picture 9](https://drive.google.com/uc?export=view&id=1AQClwaiW2DUo6x6QS4ffFwW0sRF1PL_4)
-  - ![Picture 10](https://drive.google.com/uc?export=view&id=1-X0zRYIMKCA_5P2lFoEJYSxNcBZb_Dm-)
+  - ![Total Computation Time - Random Input](https://drive.google.com/uc?export=view&id=1KRCgOdn08aNsZ-aEIgqzbBgaLLe4Fs3y)
+  - ![Total Computation Time - Reversed Input](https://drive.google.com/uc?export=view&id=1tryLPHf4ACCsoURyyaEJErCILa4IjSUf)
+  - ![Total Computation Time - Sorted Input](https://drive.google.com/uc?export=view&id=1Y3LfDiNBIwDeb__3HYt7_-fwjPSLCo7e)
+  - ![Total Gathering Time - Random Input](https://drive.google.com/uc?export=view&id=1ZIn5nNeL9U3igkwq84rmh-hTdm6f-c9M)
+  - ![Total Gathering Time - Reversed Input](https://drive.google.com/uc?export=view&id=1kNjTKyvpAKBo645gUwp_Y_tFBOpoLIvN)
+  - ![Total Gathering Time - Sorted Input](https://drive.google.com/uc?export=view&id=1l9-nUyXgWD-I9sw_xs4N-ioVFr99vMuT)
+  - ![Individual Computation Avg - Random Input](https://drive.google.com/uc?export=view&id=1zEADa4a0FUFuzxTabySnBd_-lM6tffP6)
+  - ![Individual Computation Avg - Reversed Input](https://drive.google.com/uc?export=view&id=19a7uwxfGRylzO8Dg2_Mr-i5-1DtwwWnf)
+  - ![Individual Computation Avg - Sorted Input](https://drive.google.com/uc?export=view&id=1AQClwaiW2DUo6x6QS4ffFwW0sRF1PL_4)
+  - ![Data Ingestion Time Avg](https://drive.google.com/uc?export=view&id=1-X0zRYIMKCA_5P2lFoEJYSxNcBZb_Dm-)
+    - **Data Ingestion Time Avg is measured as the avg time each indvidual process took to read in their data**
+
+- Total Computation Time Comparison Figures
+  - ![Computation1](https://drive.google.com/uc?export=view&id=1XiGRxazQX8qqzsWJVppQLmI7xi89Gili)
+  - ![Computation2](https://drive.google.com/uc?export=view&id=1Ud0W52nCKRa5V6MmG5E5uB4GSQHM6dOW)
+  - ![Computation3](https://drive.google.com/uc?export=view&id=1CMiTaVjsaWluu10bcl5rkcCGQesDF8qr)
+  - ![Computation4](https://drive.google.com/uc?export=view&id=1444GSCZxLpVArNj13IoDqpSEf2atD0-E)
+
+- Strong Scaling Speedup Figures
+  - There was limited evidence of strong scaling that was able to be found with any of the implemented sorting algorithms. This is most likely due to the fact that we were unable to get larger sets of data to be sorted due to the limitation of how we chose to create and ingest the data.
+  - ![StrongScaling1](https://drive.google.com/uc?export=view&id=16-fhGb8MN8Era2g0PeAVQhuCMY2tesNO)
+  - ![StrongScaling2](https://drive.google.com/uc?export=view&id=1xdB6pf2GqZG9sXPCd5uIEJqlkCY0-mmW)
+  - ![StrongScaling3](https://drive.google.com/uc?export=view&id=1rM_PvGWdESxFYLgqsTfbLqze2C1OuoNE)
+
+- Weak Scaling Speedup Figures
+  - ![WeakScaling1](https://drive.google.com/uc?export=view&id=1QjmqSYEV58h3QoEfijCBIuZlwoM4CI5-)
+  - ![WeakScaling2](https://drive.google.com/uc?export=view&id=1HL_7-ryGSExzK3LTun-UkGiowc5L1H2T)
+  - ![WeakScaling3](https://drive.google.com/uc?export=view&id=1mmPaTIua0ydT3_AxsvgO3LneZFRnJxud)
 
 1. Odd-Even Transposition Sort (MPI)
 
     The Odd-Even Transposition Sort performed comparably to the Enumeration Sort as opposed to the Parallel Merge Sort and the Hyper Quick Sort. This sort saw increases in total computation time as the number of processes increased for a fixed problem set. This means it doesn't exhibit strong scaling. This can be mainly attributed to the communication overhead between processes. This is because according to the algorithm, between each odd or even "phase" each process must communicate with one another the necessary information on whether or not a swap should be made between them. There was also the overhead that it takes to swap values between processes. Similarly to all the other sorts, this sort suffered from the communication overhead of gathering the sorted data at the end as well because a single process was handling the gathering of data from multiple processes. Additionally, individual process times were decreased as the # of processes increase as expected because each process has to handle much less values.
+
+    - ![OddEven1](https://drive.google.com/uc?export=view&id=1QJb3gCLnyDfRk9xos8VTI0FUF8NyccUO)
+    - ![OddEven2](https://drive.google.com/uc?export=view&id=18ZgUSPMAi1CWQnZgidi95uL9F326Ur3j)
+    - ![OddEven3](https://drive.google.com/uc?export=view&id=1VN0Hiie72g1l1tf00g-H-wd2cS_LwgMP)
 
 2. Enumeration Sort (MPI)
 
