@@ -262,8 +262,8 @@ Overall we will be looking for trends in the sorting algorithms with various inp
 
 ## 5. _due 12/1_ Presentation, 5 min + questions
 
-- Power point is ok
+[Presentation Preview](https://docs.google.com/presentation/d/1Yk_eO6Mz504-9ed8vriPQ0SVYz356We79iyd44eCnjU/edit?usp=sharing)
 
 ## 6. _due 12/8_ Final Report
 
-Example [link title](https://) to preview _doc_.
+[Report Preview](https://github.com/christophertran/CSCE-435-Project/blob/master/Report.md)
